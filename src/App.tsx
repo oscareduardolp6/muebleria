@@ -8,11 +8,11 @@ import './Sass/mySassStyles.sass'
 function App() {
   return (
     <>
+      <SideBar/>
+      <Header/>
       <Routes>
         <Route path='/' element={<Sales/>} />
       </Routes>
-      <SideBar/>
-      <Header/>
     </>
     
 

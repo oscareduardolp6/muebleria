@@ -6,16 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview", 
+    "preview": "vite preview",
     "electron-dev": "concurrently -k \"npm run dev\" \"npm:electron\"",
     "electron": "wait-on tcp:3000 && electron ."
-    },
+  },
   "dependencies": {
     "bulma": "^0.9.3",
+    "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-burger-menu": "^3.0.6",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.2.2"
+    "react-router-dom": "^6.2.2",
+    "vite-plugin-commonjs-externals": "^0.1.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",

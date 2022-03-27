@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Children } from "react"
 import { slide as Menu } from 'react-burger-menu'
 import { MenuItem } from "./MenuItem"
 
@@ -11,7 +11,11 @@ export const SideBar = () => {
 
   return (
     <Menu>
-      { options.map(option => <MenuItem>{ option.optionName }</MenuItem>)}
+      { 
+        Children.toArray(
+          options.map(option => <MenuItem>{ option.optionName }</MenuItem>)
+        ) 
+      }
     </Menu>
   )
 }
