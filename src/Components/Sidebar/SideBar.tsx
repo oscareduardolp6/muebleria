@@ -11,7 +11,7 @@ export const SideBar = () => {
 
   return (
     <Menu>
-      { options.map(option => <MenuItem className="test-border">{ option.optionName }</MenuItem>)}
+      { options.map(option => <MenuItem>{ option.optionName }</MenuItem>)}
     </Menu>
   )
 }
