@@ -1,0 +1,26 @@
+[
+  {
+    "optionName": "Mantenimiento de Productos", 
+    "optionRoute": "productManager"
+  }, 
+  {
+    "optionName": "Ventas", 
+    "optionRoute": "sales"
+  }, 
+  {
+    "optionName": "Compras", 
+    "optionRoute": "purchases"
+  }, 
+  {
+    "optionName": "Movimientos entre almacenes", 
+    "optionRoute": "siteMovs"
+  }, 
+  {
+    "optionName": "Reporte de transacciones", 
+    "optionRoute": "transactions"
+  }, 
+  {
+    "optionName": "Salir", 
+    "optionRoute": "exit"
+  }
+]
