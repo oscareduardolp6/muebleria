@@ -2,7 +2,7 @@ import React, { useState, Children } from "react"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { SalesFormInputs } from "./SalesTypes"
 import { Label } from "../../Components/Field/Label"
-import CurrencyInput from "react-currency-input-field"
+import { Product } from "../../../../../Backend/Owl_Sales_Point_Back/src/Products/Domain/Product"
 
 const validate = (values: any) => {
   console.log(values);
