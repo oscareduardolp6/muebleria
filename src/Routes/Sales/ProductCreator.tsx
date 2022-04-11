@@ -49,6 +49,8 @@ export const ProductCreator = () => {
     productPublicSiteStock: 0
   }
 
+
+
   const handleSubmit = (e: any) => {
 
     console.log(e) 
@@ -66,10 +68,15 @@ export const ProductCreator = () => {
     <Formik {...formikProps}  >
       <Form className='m-6'>
         <Row>
-          <Column>
-            <MyFormField name='productID' className={commonClass} placeholder='A20' required>
-              ID Producto
-            </MyFormField>
+          <Column className="is-flex">
+            <div>
+              <MyFormField name='productID' className={commonClass} placeholder='A20' required inputStyle={{maxWidth: '120%'}} >
+                ID Producto
+              </MyFormField>
+            </div>
+            <div>
+              <button className="button is-primary ml-5" style={{marginTop: '2.4em'}} type='button'>Buscar</button>
+            </div>
           </Column>
           <Column>
             <MyFormField name='productName' className={commonClass} placeholder='A20' required>

@@ -7,8 +7,6 @@ import options from "./MenuOptions.json"
 import './SideBar.css'
 
 export const SideBar = () => {
-
-
   return (
     <Menu>
       { 
