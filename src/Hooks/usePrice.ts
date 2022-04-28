@@ -1,4 +1,3 @@
-import { MyPrice, relationFunction } from "../../../../Backend/Owl_Sales_Point_Back/src/Products/Domain/MyPrice";
 import { useState } from 'react'
 
 export const usePrice = ({basePrice, mortageRelation, publicRelation}: usePriceParams) => {
