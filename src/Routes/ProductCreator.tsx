@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { Formik, Form, Field } from 'formik'
-import { SalesFormInputs } from "./SalesTypes"
-import { Label } from "../../Components/Field/Label"
-import { usePrice } from "../../Hooks/usePrice"
-import { Row } from "../../Components/Row"
-import { Column } from "../../Components/Column"
-import { MyFormField } from "../../Components/MyFormField"
+import { SalesFormInputs } from "./Sales/SalesTypes"
+import { Label } from "../Components/Field/Label"
+import { usePrice } from "../Hooks/usePrice"
+import { Row } from "../Components/Row"
+import { Column } from "../Components/Column"
+import { MyFormField } from "../Components/MyFormField"
 
 const validate = (values: any) => {
   const errors: any = {}
@@ -25,15 +25,16 @@ export const ProductCreator = () => {
 
   const [colors, setColors] = useState(initialColors)
   const [sizes] = useState(initialSizes)
-  const [price, setPrice] = usePrice({
-    basePrice: 0, 
-    mortageRelation: price => 1.25*price, 
-    publicRelation: price => 1.5*price
-  })
+
+  // const [price, setPrice] = usePrice({
+  //   basePrice: 0, 
+  //   // mortageRelation: price => 1.25*price, 
+  //   // publicRelation: price => 1.5*price
+  // })
 
   const [supliers, setSupliers] = useState(initialSupliers)
 
-  const changePrice = (e: any) => setPrice(Number(e.target.value))
+  // const changePrice = (e: any) => setPrice(Number(e.target.value))
 
   const initialValues: SalesFormInputs = {
     productID: '', 
@@ -49,12 +50,11 @@ export const ProductCreator = () => {
     productPublicSiteStock: 0
   }
 
-
-
   const handleSubmit = (e: any) => {
-
     console.log(e) 
-    console.log(price);
+  }
+  
+  const handleClick = (e: any) => {
     
   }
 
@@ -113,17 +113,17 @@ export const ProductCreator = () => {
         </Row>
         <Row>
           <Column>
-            <MyFormField name='productBasePrice' className='input' placeholder='$125' value={price.getOriginalPrice()?.getPrice()} onChange={changePrice} type='number' min='0'>
+            <MyFormField name='productBasePrice' className='input' placeholder='$125'  type='number' min='0'>
               Precio Base 
             </MyFormField>
           </Column>
           <Column>
-            <MyFormField name='productMortagePrice' type='number' className='input' value={price.getMortgagePriceValue()} disabled>
+            <MyFormField name='productMortagePrice' type='number' className='input'  disabled>
               Precio Hipoteca
             </MyFormField>
           </Column>
           <Column>
-            <MyFormField name='productPublicPrice' type='number' className='input' value={price.getPublicPriceValue()} disabled>
+            <MyFormField name='productPublicPrice' type='number' className='input'  disabled>
               Precio Público 
             </MyFormField>
           </Column>
