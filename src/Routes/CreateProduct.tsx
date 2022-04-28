@@ -7,12 +7,15 @@ import { getProductByProductID, saveProduct } from "../Services/ProductService"
 import { useBinaryState } from "../Hooks/useBinaryState"
 import { TextAreaInput } from "../Components/TextAreaInput"
 import { initialState, ProductForm } from "../Config/ProductForm"
+import { ProductIDField } from "../Components/ProductIDField"
+import { ProductFormField } from "../Components/ProductFormField"
 
 
 export const CreateProduct = () => { 
   const [enabled, deny, allow] = useBinaryState()
   const [loadingSearchButton,,, toggleButtonLoading] = useBinaryState()
   const [loadingSaveButton,,, toggleSaveButton] = useBinaryState()
+  //TODO: Mover esto a un Contexto
   const [form, handleChange, resetForm, setForm] = useForm(initialState)
 
   const handleProductIDInputChange = (e: any) => {
@@ -34,7 +37,7 @@ export const CreateProduct = () => {
       setForm(productInfo)
   }
 
-  const handlePriceInput = (e: any) => {
+  const handleNumberInput = (e: any) => {
     const { value } = e.target
     const isVoidString = value === ''
     
@@ -58,7 +61,7 @@ export const CreateProduct = () => {
     e.preventDefault()
     toggleSaveButton()
     const created = await saveProduct(form)
-    const {productID: id} = form
+    const { productID: id } = form
     const message = 
       created 
       ? `El Producto con ID: ${id} fue creado` 
@@ -71,36 +74,22 @@ export const CreateProduct = () => {
     <form className='m-6' onSubmit={handleSubmit}>
       <Row>
         <Column className="is-flex">
-          <div>
-            <Label>ID Producto</Label>
-            <TextInput
-              name='productID' 
-              placeholder='A20' 
-              required 
-              style={{ maxWidth: '120%' }}
-              onChange={handleProductIDInputChange}
-              value={form.productID}
-              />
-          </div>
-          <button 
-            className={`button is-primary ml-5 ${loadingSearchButton ? 'is-loading' : ''}`}
-            style={{ marginTop: '2.4em' }}
-            type="button"
+          <ProductIDField
             disabled={!enabled}
-            onClick={handleClickSearchButton}
-            >
-            Buscar
-          </button>
+            handleChange={handleProductIDInputChange}
+            handleClickSearchButton={handleClickSearchButton}
+            loadingSearchButton={loadingSearchButton}
+            value={form.productID} />
         </Column>
         <Column>
-          <Label>Nombre Producto</Label>
-          <TextInput
+          <ProductFormField
             name='name'
             placeholder='A20'
             required
             onChange={handleChange}
-            value={form.name}
-            />
+            value={form.name}>
+              Nombre Producto
+          </ProductFormField>
         </Column>
         <Column>
           <Label>Color</Label>
@@ -151,7 +140,7 @@ export const CreateProduct = () => {
           <TextInput 
             value={form.basePrice.value || ''}
             name='basePrice.value'
-            onChange={handlePriceInput}
+            onChange={handleNumberInput}
             placeholder='$120 (pesos)' />
         </Column>
         <Column>
@@ -159,7 +148,7 @@ export const CreateProduct = () => {
           <TextInput
             value={form.mortgagePrice.value || ''} 
             name='mortgagePrice.value'
-            onChange={handlePriceInput}
+            onChange={handleNumberInput}
             placeholder='$150 (pesos)'/>
         </Column>
         <Column>
@@ -167,7 +156,7 @@ export const CreateProduct = () => {
           <TextInput
             value={form.publicPrice.value || ''}
             name='publicPrice.value'
-            onChange={handlePriceInput}
+            onChange={handleNumberInput}
             placeholder='$200 (pesos)' />
         </Column>
       </Row>
@@ -177,7 +166,7 @@ export const CreateProduct = () => {
           <TextInput
             value={form.privateStockQuantity.quantity || ''}
             name='privateStockQuantity.quantity'
-            onChange={handlePriceInput}
+            onChange={handleNumberInput}
             placeholder='0' />
         </Column>
         <Column>
@@ -185,7 +174,7 @@ export const CreateProduct = () => {
           <TextInput 
             value={form.publicStockQuantity.quantity || ''}
             name='publicStockQuantity.quantity' 
-            onChange={handlePriceInput}
+            onChange={handleNumberInput}
             placeholder='0'/>
         </Column>
         <Column>
@@ -199,7 +188,7 @@ export const CreateProduct = () => {
       <Row>
         <Column className="is-11">
           <Label>
-            { /* TODO: Arreglar el Handle del checkboc para que funcione correctamente */ }
+            { /* TODO: Arreglar el Handle del checkbox para que funcione correctamente */ }
             <input 
               className="checkbox has-text-primary"
               style={{ marginRight: '8px' }}
