@@ -1,5 +1,14 @@
-import { Product_ID } from '../../../../../../Backend/Owl_Sales_Point_Back/src/Products/Domain/ValueObjects'
-import { Product } from "../../../../../../Backend/Owl_Sales_Point_Back/src/Products/Domain/Product";
-export interface ProductService{
-  getProduct: (id: Product_ID) => Product
+import axios from "axios"
+import { Product } from "../../../../../../Share/Product"
+import { StatusCode } from "status-code-enum"
+
+const validateStatus = (status: number) => 
+  status === StatusCode.ClientErrorNotFound || status === StatusCode.RedirectFound 
+
+
+export const getProductByProductID = async (id: string): Promise<Product | null> => {
+  const { data, status } = await axios.get(`http://localhost:3030/products/${id}`, { validateStatus })
+  if(status !== StatusCode.RedirectFound)
+    return null
+  return data.product as Product 
 }
