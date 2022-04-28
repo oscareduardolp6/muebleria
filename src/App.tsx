@@ -1,10 +1,9 @@
 import { Header } from "./Components/Header"
 import { SideBar } from "./Components/Sidebar/SideBar"
 import { Routes, Route } from 'react-router-dom'
-import { ProductCreator } from "./Routes/ProductCreator"
+import { CreateProduct } from "./Routes/CreateProduct"
 
 import './Sass/mySassStyles.sass'
-import { CreateProduct } from "./Routes/CreateProduct"
 
 function App() {
   return (
@@ -16,8 +15,6 @@ function App() {
         <Route path='/' element={<CreateProduct />} />
       </Routes>
     </>
-    
-
   )
 }
 
