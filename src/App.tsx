@@ -1,4 +1,4 @@
-import { Header } from "./Components/Header/Header"
+import { Header } from "./Components/Header"
 import { SideBar } from "./Components/Sidebar/SideBar"
 import { Routes, Route } from 'react-router-dom'
 import { ProductCreator } from "./Routes/ProductCreator"
