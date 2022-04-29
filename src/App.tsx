@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import { CreateProduct } from "./Routes/CreateProduct"
 
 import './Sass/mySassStyles.sass'
+import { ProductTable } from "./Components/ProductTable"
 
 function App() {
   return (
@@ -11,8 +12,8 @@ function App() {
       <SideBar/>
       <Header/>
       <Routes>
-        {/* <Route path='/' element={<ProductCreator />} /> */}
-        <Route path='/' element={<CreateProduct />} />
+        {/* <Route path='/' element={<CreateProduct />} /> */}
+        <Route path='/' element={<ProductTable /> } />
       </Routes>
     </>
   )
