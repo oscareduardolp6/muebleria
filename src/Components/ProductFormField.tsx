@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { InputProps } from "../TypesAliases";
+import { InputProps } from "../Types/TypesAliases";
 import { Label } from "./Label";
 import { TextInput } from "./TextInput";
 

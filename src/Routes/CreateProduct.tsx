@@ -7,7 +7,7 @@ import { getProductByProductID, saveProduct } from "../Services/ProductService"
 import { useBinaryState } from "../Hooks/useBinaryState"
 import { TextAreaInput } from "../Components/TextAreaInput"
 import { initialState, ProductForm } from "../Config/ProductForm"
-import { ProductIDField } from "../Components/ProductIDField"
+import { SearchField } from "../Components/SearchField"
 import { ProductFormField } from "../Components/ProductFormField"
 
 
@@ -74,7 +74,11 @@ export const CreateProduct = () => {
     <form className='m-6' onSubmit={handleSubmit}>
       <Row>
         <Column className="is-flex">
-          <ProductIDField
+          <SearchField
+            inputName='productID'
+            label="ID Producto"
+            placeholder="A20"
+            required
             disabled={!enabled}
             handleChange={handleProductIDInputChange}
             handleClickSearchButton={handleClickSearchButton}

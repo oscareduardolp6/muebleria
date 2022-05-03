@@ -8,9 +8,9 @@ const validateStatusGetProductByProductID = (status: number) =>
   status === StatusCode.ClientErrorNotFound || status === StatusCode.RedirectFound 
 
 const validateStatusSaveProduct = (status: number) => 
-  status === StatusCode.ClientErrorNotAcceptable || StatusCode.SuccessCreated
+  status === StatusCode.ClientErrorNotAcceptable || status === StatusCode.SuccessCreated 
 
-const myAxios = axios.create({ baseURL: BASE_URL })
+const myAxios = axios.create({ baseURL: `${BASE_URL}/products`})
 
 export const getProductByProductID = async (id: string): Promise<Product | null> => {
   const { data, status } = await myAxios.get(`/${id}`, { validateStatus: validateStatusGetProductByProductID })
@@ -25,4 +25,11 @@ export const saveProduct = async (product: ProductForm): Promise<boolean> => {
   if(status !== StatusCode.SuccessCreated)
     return false 
   return true
+}
+
+export const getProducts = async (): Promise<Product[] | null> => {
+  const { data, status } = await myAxios.get('')
+  if(status !== StatusCode.SuccessOK)
+    return null
+  return data.products as Product[]
 }

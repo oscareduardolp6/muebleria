@@ -1,10 +1,9 @@
 import { Header } from "./Components/Header"
 import { SideBar } from "./Components/Sidebar/SideBar"
 import { Routes, Route } from 'react-router-dom'
-import { CreateProduct } from "./Routes/CreateProduct"
+import { Sales } from "./Routes/Sales"
 
 import './Sass/mySassStyles.sass'
-import { ProductTable } from "./Components/ProductTable"
 
 function App() {
   return (
@@ -13,7 +12,7 @@ function App() {
       <Header/>
       <Routes>
         {/* <Route path='/' element={<CreateProduct />} /> */}
-        <Route path='/' element={<ProductTable /> } />
+        <Route path='/' element={<Sales /> } />
       </Routes>
     </>
   )

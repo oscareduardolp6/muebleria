@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react"
-
-type setAction<T> = Dispatch<SetStateAction<T>>
+import { useState } from "react"
+import { SetAction } from "../Types/TypesAliases";
 
 export function useForm<T> (initialState: T) {
   const [form, setForm] = useState(initialState)
@@ -30,5 +29,5 @@ export function useForm<T> (initialState: T) {
     handleChange, 
     reset, 
     setForm
-  ] as [T, (e: any) => void, () => void, setAction<T>]
+  ] as [T, (e: any) => void, () => void, SetAction<T>]
 } 
