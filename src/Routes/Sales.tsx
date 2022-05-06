@@ -1,11 +1,14 @@
 import { Column } from "../Components/Column";
 import { Label } from "../Components/Label";
-import { HandleSelectionFunction, ProductTable } from "../Components/ProductTable"
+import { ProductTable } from "../Components/ProductTable/ProductTable"
 import { Row } from "../Components/Row";
 import { TextInput } from "../Components/TextInput";
+import { useSelection } from "../Hooks/useSelection";
 
 export const Sales = () => {
-  const handleSelectedRows: HandleSelectionFunction = ({ selectedRows }) => console.log(selectedRows);
+  const [selection, setSelection] = useSelection()
+  
+  
   return (
     <>
       <div className='mx-5 my-5'>
@@ -21,13 +24,14 @@ export const Sales = () => {
           <Column>
             <button 
               className="button is-primary" 
+              onClick={e => alert(JSON.stringify(selection))}
               style={{ marginTop: '2.5em' }}>
                 Registrar Venta
             </button>
           </Column>
         </Row>
       </div>
-      <ProductTable selectable handleSelection={handleSelectedRows}/>
+      <ProductTable selectable handleSelection={setSelection}/>
     </>
   )
 }

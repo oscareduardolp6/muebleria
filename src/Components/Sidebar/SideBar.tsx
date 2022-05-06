@@ -1,4 +1,4 @@
-import React, { Children } from "react"
+import { Children } from "react"
 import { slide as Menu } from 'react-burger-menu'
 import { MenuItem } from "./MenuItem"
 
