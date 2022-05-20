@@ -8,6 +8,10 @@
     "optionRoute": "sales"
   }, 
   {
+    "optionName": "Registro Clientes", 
+    "optionRoute": "clientsManager"
+  },
+  {
     "optionName": "Compras", 
     "optionRoute": "purchases"
   }, 

@@ -11,7 +11,9 @@ export const SideBar = () => {
     <Menu>
       { 
         Children.toArray(
-          options.map(option => <MenuItem>{ option.optionName }</MenuItem>)
+          options.map(option => 
+            <MenuItem redirect={`/${option.optionRoute}`}>{ option.optionName }</MenuItem>
+          )
         ) 
       }
     </Menu>

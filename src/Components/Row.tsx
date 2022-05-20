@@ -1,3 +1,7 @@
 import { FC } from "react";
 
-export const Row:FC = ({children}) => <div className="columns">{children}</div>
+export const Row:FC<RowProps> = ({ children, className = '' }) => <div className={`columns ${className}`}>{children}</div>
+
+interface RowProps {
+  className?: string;
+}

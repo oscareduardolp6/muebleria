@@ -6,11 +6,7 @@ let storageProducts: any = null
 export const useProductDataRow = () => {
   const [products, setProducts] = useState<any>([])
   const mySetProducts = (serviceProducts: DataRowProduct[]) => {
-    console.log('Service Products');
-    console.log(serviceProducts);
     const dataArray = serviceProducts.map(flatProductObject)
-    console.log('Data Array');
-    console.log(dataArray);
     setProducts(dataArray)
     if(!storageProducts)
       storageProducts = dataArray
