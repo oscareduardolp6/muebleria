@@ -21,11 +21,12 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
 
   switch(payload.action){
     case 'incrementPublicSiteQuantity' : {
-      const newPublicSiteQuantity = showSiteQuantity + 1
+      let newPublicSiteQuantity = showSiteQuantity + 1
       const total = showSiteQuantity  + privateSiteQuantity 
+      newPublicSiteQuantity = newPublicSiteQuantity > total ? total : newPublicSiteQuantity
+      newPublicSiteQuantity = newPublicSiteQuantity < 0 ? 0 : newPublicSiteQuantity
       const diff = total - newPublicSiteQuantity
-      const newPrivateSiteQuantity = diff < 0 ? 0 : diff
-
+      let newPrivateSiteQuantity = diff < 0 ? 0 : diff
       return {
         ...product, 
         privateSiteQuantity: newPrivateSiteQuantity, 
@@ -33,9 +34,13 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
       }
     }
     case 'decrementPublicSiteQuantity': {
-      const newPublicSiteQuantity = (showSiteQuantity ?? 0) - 1
+      let newPublicSiteQuantity = showSiteQuantity - 1
       const total = showSiteQuantity  + privateSiteQuantity
-      const newPrivateSiteQuantity = total - newPublicSiteQuantity
+      newPublicSiteQuantity = newPublicSiteQuantity > total ? total : newPublicSiteQuantity
+      newPublicSiteQuantity = newPublicSiteQuantity < 0 ? 0 : newPublicSiteQuantity
+      const diff = total - newPublicSiteQuantity
+      const newPrivateSiteQuantity = diff < 0 ? 0 : diff
+      // const newPrivateSiteQuantity = total - newPublicSiteQuantity
       return {
         ...product, 
         privateSiteQuantity: newPrivateSiteQuantity, 
@@ -43,9 +48,13 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
       }
     }
     case 'incrementPrivateSiteQuantity': {
-      const newPrivateSiteQuantity = (privateSiteQuantity ?? 0) + 1
+      let newPrivateSiteQuantity = privateSiteQuantity + 1
       const total = showSiteQuantity  + privateSiteQuantity
-      const newPublicSiteQuantity = total - newPrivateSiteQuantity
+      newPrivateSiteQuantity = newPrivateSiteQuantity > total ? total : newPrivateSiteQuantity
+      newPrivateSiteQuantity = newPrivateSiteQuantity < 0 ? 0 : newPrivateSiteQuantity
+      const diff = total - newPrivateSiteQuantity
+      const newPublicSiteQuantity = diff < 0 ? 0 : diff
+      // const newPublicSiteQuantity = total - newPrivateSiteQuantity
       return {
         ...product, 
         privateSiteQuantity: newPrivateSiteQuantity, 
@@ -53,9 +62,12 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
       }
     }
     case 'decrementPriveteSiteQuantity': {
-      const newPrivateSiteQuantity = (privateSiteQuantity ?? 0)  - 1
+      let newPrivateSiteQuantity = privateSiteQuantity  - 1
       const total = showSiteQuantity  + privateSiteQuantity
-      const newPublicSiteQuantity = total - newPrivateSiteQuantity
+      newPrivateSiteQuantity = newPrivateSiteQuantity > total ? total : newPrivateSiteQuantity
+      newPrivateSiteQuantity = newPrivateSiteQuantity < 0 ? 0 : newPrivateSiteQuantity
+      const diff = total - newPrivateSiteQuantity
+      const newPublicSiteQuantity = diff < 0 ? 0 : diff 
       return {
         ...product, 
         privateSiteQuantity: newPrivateSiteQuantity, 
