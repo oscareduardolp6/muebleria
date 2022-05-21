@@ -14,11 +14,6 @@ export type ActionPayload = {
   state?: myStateType
 }
 
-const validateQuantitys = (showQuantity: number, privateQuantity: number) => {
-
-
-}
-
 export const siteMovementsReducer = (product: myStateType, payload: ActionPayload): typeof product => {
   if(!product) return 
   
@@ -27,45 +22,55 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
 
   switch(payload.action){
     case 'incrementPublicSiteQuantity' : {
-      newPublicSiteQuantity = showSiteQuantity + 1
+      const newQuantity = showSiteQuantity + 1 
       const total = showSiteQuantity  + privateSiteQuantity 
-      newPublicSiteQuantity = newPublicSiteQuantity > total ? total : newPublicSiteQuantity
-      newPublicSiteQuantity = newPublicSiteQuantity < 0 ? 0 : newPublicSiteQuantity
+      newPublicSiteQuantity = newQuantity > total 
+                                ? total 
+                                : newQuantity < 0 
+                                ? 0 
+                                : newQuantity
       const diff = total - newPublicSiteQuantity
       newPrivateSiteQuantity = diff < 0 ? 0 : diff
     }
     break 
     case 'decrementPublicSiteQuantity': {
-      newPublicSiteQuantity = showSiteQuantity - 1
-      const total = showSiteQuantity  + privateSiteQuantity
-      newPublicSiteQuantity = newPublicSiteQuantity > total ? total : newPublicSiteQuantity
-      newPublicSiteQuantity = newPublicSiteQuantity < 0 ? 0 : newPublicSiteQuantity
-      const diff = total - newPublicSiteQuantity
-      newPrivateSiteQuantity = diff < 0 ? 0 : diff
+      const newQuantity = showSiteQuantity - 1 
+      const total = showSiteQuantity + privateSiteQuantity
+      newPublicSiteQuantity = newQuantity > total 
+                                ? total 
+                                : newQuantity < 0 
+                                ? 0 
+                                : newQuantity
+      const diff = total - newPublicSiteQuantity 
+      newPrivateSiteQuantity = diff < 0 ? 0 : diff 
     }
     break
     case 'incrementPrivateSiteQuantity': {
-      newPrivateSiteQuantity = privateSiteQuantity + 1
-      const total = showSiteQuantity  + privateSiteQuantity
-      newPrivateSiteQuantity = newPrivateSiteQuantity > total ? total : newPrivateSiteQuantity
-      newPrivateSiteQuantity = newPrivateSiteQuantity < 0 ? 0 : newPrivateSiteQuantity
+      const newQuantity = privateSiteQuantity + 1 
+      const total = showSiteQuantity + privateSiteQuantity
+      newPrivateSiteQuantity = newQuantity > total 
+                                  ? total 
+                                  : newQuantity < 0 
+                                  ? 0 
+                                  : newQuantity
       const diff = total - newPrivateSiteQuantity
       newPublicSiteQuantity = diff < 0 ? 0 : diff
     }
     break
     case 'decrementPriveteSiteQuantity': {
-      newPrivateSiteQuantity = privateSiteQuantity  - 1
-      const total = showSiteQuantity  + privateSiteQuantity
-      newPrivateSiteQuantity = newPrivateSiteQuantity > total ? total : newPrivateSiteQuantity
-      newPrivateSiteQuantity = newPrivateSiteQuantity < 0 ? 0 : newPrivateSiteQuantity
+      const newQuantity = privateSiteQuantity - 1 
+      const total = showSiteQuantity + privateSiteQuantity 
+      newPrivateSiteQuantity = newQuantity > total
+                                  ? total
+                                  : newQuantity < 0 
+                                  ? 0 
+                                  : newQuantity 
       const diff = total - newPrivateSiteQuantity
-      newPublicSiteQuantity = diff < 0 ? 0 : diff 
+      newPublicSiteQuantity = diff < 0 ? 0 : diff
     }
     break
     case 'setProduct': {
-      return {
-        ...payload.state 
-      }
+      return { ...payload.state }
     }
   }
   return {
