@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, Dispatch, SetStateAction } from "react"
+import { ButtonHTMLAttributes, Dispatch, MouseEvent, SetStateAction, ChangeEvent as NativeChangeEvent } from "react"
 
 export type AnchorProps = React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
 
@@ -8,7 +8,9 @@ export type InputProps = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLI
 
 export type ButtonTypes = "button" | "submit" | "reset" | undefined
 
-export type ChangeEvent = React.ChangeEvent<HTMLInputElement>
+export type ChangeEvent = NativeChangeEvent<HTMLInputElement>
+
+export type ClickEvent = MouseEvent<HTMLDataListElement>
 
 export type SetAction<T> = Dispatch<SetStateAction<T>>
 
