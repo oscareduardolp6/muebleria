@@ -1,19 +1,25 @@
-import { useState } from "react"
+import { useReducer, useState } from "react"
 import { AutoCompleteProducts } from "../../Components/AutoCompleteProducts"
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
 import { Label } from "../../Components/Label"
 import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
-import { useSitesMovements } from "../../Hooks/useSitesMovements"
+import { siteMovementsReducer } from "../../Hooks/useSitesMovements"
 import { DecrementButton, IncrementButton } from "./ActionsButtons"
 import { getSearchHandler } from "./HandlerGenerators"
 
 
 export const SitesMovements = () => {
   const [selection, setSelection] = useState('')
-  const [[showSite, privateSite], setProduct, incrementPublicSite, decrementPublicSite, incrementPrivateSite, decrementPrivateSite] = useSitesMovements()
-  const handleSearch = getSearchHandler(selection, setProduct)
+  const [product, dispatch] = useReducer(siteMovementsReducer, {})
+
+  const handleSearch = getSearchHandler(selection, dispatch)
+
+  const decrementPrivateSite = () => dispatch({action: 'decrementPriveteSiteQuantity'})
+  const incrementPrivateSite = () => dispatch({action: 'incrementPrivateSiteQuantity'})
+  const decrementPublicSite = () => dispatch({action: 'decrementPublicSiteQuantity'})
+  const incrementPublicSite = () => dispatch({action: 'incrementPublicSiteQuantity'})
 
   return (
     <>
@@ -36,10 +42,10 @@ export const SitesMovements = () => {
       </Row>
       <Row>
         <Column className='is-4 is-offset-1 mt-5'>
-          <TextInput disabled type='number' name="product.showSiteQuantity"  value={showSite ?? 0}/>
+          <TextInput disabled type='number' name="showSiteQuantity"  value={product?.showSiteQuantity ?? 0}/>
         </Column>
         <Column className='is-4 is-offset-1 mt-5'>
-          <TextInput disabled type='number' name='privateSiteQuantity'  value={privateSite ?? 0} />
+          <TextInput disabled type='number' name='privateSiteQuantity'  value={product?.privateSiteQuantity ?? 0} />
         </Column>
       </Row>
       <Row className="mt-5">

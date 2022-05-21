@@ -1,72 +1,72 @@
-import { useState } from "react"
 import { ProductDTO } from "../../../../Share/ProductDTO"
-import { SetAction } from "../Types/TypesAliases"
 
-export const useSitesMovements = () => {
-  const [product, setProduct] = useState<ProductDTO | null | undefined>()
-  const total = product 
-                  ? product.privateSiteQuantity + product.showSiteQuantity 
-                  : 0
+type myStateType = Partial<ProductDTO> | null | undefined
 
-  const incrementPublicSiteQuantity = () => {
-    console.log('Increment');
-    if(!product) return 
-    const { showSiteQuantity } = product
-    const newPublicSiteQuantity = showSiteQuantity + 1
-    const newPrivateSiteQuantity = total - newPublicSiteQuantity
-    setProduct({
-      ...product, 
-      privateSiteQuantity: newPrivateSiteQuantity, 
-      showSiteQuantity: newPublicSiteQuantity
-    })
+type ActionType = 
+    'incrementPublicSiteQuantity' 
+  | 'decrementPublicSiteQuantity'
+  | 'incrementPrivateSiteQuantity'
+  | 'decrementPriveteSiteQuantity'
+  | 'setProduct'
+
+export type ActionPayload = {
+  action: ActionType, 
+  state?: myStateType
+}
+
+export const siteMovementsReducer = (product: myStateType, payload: ActionPayload): typeof product => {
+  if(!product) return 
+  
+  const { showSiteQuantity = 0, privateSiteQuantity = 0 } = product
+
+  switch(payload.action){
+    case 'incrementPublicSiteQuantity' : {
+      const newPublicSiteQuantity = showSiteQuantity + 1
+      const total = showSiteQuantity  + privateSiteQuantity 
+      const diff = total - newPublicSiteQuantity
+      const newPrivateSiteQuantity = diff < 0 ? 0 : diff
+
+      return {
+        ...product, 
+        privateSiteQuantity: newPrivateSiteQuantity, 
+        showSiteQuantity: newPublicSiteQuantity
+      }
+    }
+    case 'decrementPublicSiteQuantity': {
+      const newPublicSiteQuantity = (showSiteQuantity ?? 0) - 1
+      const total = showSiteQuantity  + privateSiteQuantity
+      const newPrivateSiteQuantity = total - newPublicSiteQuantity
+      return {
+        ...product, 
+        privateSiteQuantity: newPrivateSiteQuantity, 
+        showSiteQuantity: newPublicSiteQuantity
+      }
+    }
+    case 'incrementPrivateSiteQuantity': {
+      const newPrivateSiteQuantity = (privateSiteQuantity ?? 0) + 1
+      const total = showSiteQuantity  + privateSiteQuantity
+      const newPublicSiteQuantity = total - newPrivateSiteQuantity
+      return {
+        ...product, 
+        privateSiteQuantity: newPrivateSiteQuantity, 
+        showSiteQuantity: newPublicSiteQuantity
+      }
+    }
+    case 'decrementPriveteSiteQuantity': {
+      const newPrivateSiteQuantity = (privateSiteQuantity ?? 0)  - 1
+      const total = showSiteQuantity  + privateSiteQuantity
+      const newPublicSiteQuantity = total - newPrivateSiteQuantity
+      return {
+        ...product, 
+        privateSiteQuantity: newPrivateSiteQuantity, 
+        showSiteQuantity: newPublicSiteQuantity
+      }
+    }
+    case 'setProduct': {
+      return {
+        ...payload.state 
+      }
+    }
   }
-
-  const decrementPublicSiteQuantity = () => {
-    console.log('Decrement');
-    if(!product) return
-    const { showSiteQuantity } = product
-    const newPublicSiteQuantity = showSiteQuantity - 1 
-    const newPrivateSiteQuantity = total - newPublicSiteQuantity
-    setProduct({
-      ...product, 
-      privateSiteQuantity: newPrivateSiteQuantity, 
-      showSiteQuantity: newPublicSiteQuantity
-    })
-  }
-
-  const incrementPrivateSiteQuantity = () => {
-    console.log('Increment');
-    if(!product) return 
-    const { privateSiteQuantity } = product
-    const newPrivateSiteQuantity = privateSiteQuantity + 1 
-    const newPublicSiteQuantity = total - newPrivateSiteQuantity
-    setProduct({
-      ...product, 
-      privateSiteQuantity: newPrivateSiteQuantity, 
-      showSiteQuantity: newPublicSiteQuantity
-    })
-  }
-
-  const decrementPrivateSiteQuantity = () => {
-    console.log('Decrement');
-    if(!product) return
-    const { privateSiteQuantity } = product
-    const newPrivateSiteQuantity = privateSiteQuantity - 1 
-    const newPublicSiteQuantity = total - newPrivateSiteQuantity
-    setProduct({
-      ...product, 
-      privateSiteQuantity: newPrivateSiteQuantity, 
-      showSiteQuantity: newPublicSiteQuantity
-    })
-  }
-
-  return [ 
-    [product?.showSiteQuantity, product?.privateSiteQuantity], 
-    setProduct,
-    incrementPublicSiteQuantity, 
-    decrementPublicSiteQuantity, 
-    incrementPrivateSiteQuantity, 
-    decrementPrivateSiteQuantity
-  ] as [(number | null)[], SetAction<ProductDTO | null | undefined>, any, any, any, any]
 
 }
