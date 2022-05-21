@@ -1,5 +1,4 @@
-import { MouseEventHandler, useState } from "react"
-import { ProductDTO } from "../../../../../Share/ProductDTO"
+import { useState } from "react"
 import { AutoCompleteProducts } from "../../Components/AutoCompleteProducts"
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
@@ -7,31 +6,9 @@ import { Label } from "../../Components/Label"
 import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
 import { useSitesMovements } from "../../Hooks/useSitesMovements"
-import { getProductsById } from "../../Services/ProductsService"
-import { ChangeEvent, InputButtonProps, SetAction } from "../../Types/TypesAliases"
+import { DecrementButton, IncrementButton } from "./ActionsButtons"
+import { getSearchHandler } from "./HandlerGenerators"
 
-const getSearchHandler = (selection: string, setProduct: SetAction<ProductDTO | null | undefined>) => {
-  const handler: MouseEventHandler = async () => {
-    const includesHyphen = selection.includes('-')
-    const id = includesHyphen
-                ? selection.split('-')[1].trim()
-                : selection 
-    const product = await getProductsById(id)
-    if(!product)
-      alert('Producto no encontrado')
-    setProduct(product)
-  }
-  return handler 
-}
-
-type siteKeys = Pick<ProductDTO, "privateSiteQuantity" | "showSiteQuantity" >
-
-const switchSites: Record<keyof siteKeys, keyof ProductDTO> = {
-  "privateSiteQuantity": 'showSiteQuantity' ,
-  "showSiteQuantity": "privateSiteQuantity"
-}
-
-type ButtonActions = 'Increment' | 'Decrement'
 
 export const SitesMovements = () => {
   const [selection, setSelection] = useState('')
@@ -77,19 +54,3 @@ export const SitesMovements = () => {
     </>
   )
 }
-
-const DecrementButton = ({className, ...rest}: InputButtonProps) => 
-  <Button 
-    className={`column is-1 is-offset-2 ${className}`}
-    style={{ paddingBottom: '2em' }}
-    {...rest}>
-      ➖
-  </Button>
-
-const IncrementButton = ({ className, ...rest }: InputButtonProps) => 
-  <Button
-    className="column is-1 ml-5"
-    style={{ paddingBottom: '2em' }}
-    {...rest}>
-      ➕
-  </Button>
