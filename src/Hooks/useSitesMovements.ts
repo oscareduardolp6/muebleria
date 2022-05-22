@@ -18,7 +18,7 @@ export const siteMovementsReducer = (product: myStateType, payload: ActionPayloa
   if(!product) return 
   
   const { showSiteQuantity = 0, privateSiteQuantity = 0 } = product
-  let newPublicSiteQuantity, newPrivateSiteQuantity : number
+  let newPublicSiteQuantity, newPrivateSiteQuantity : number = 0
 
   switch(payload.action){
     case 'incrementPublicSiteQuantity' : {
