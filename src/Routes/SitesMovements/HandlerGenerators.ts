@@ -1,8 +1,6 @@
 import { MouseEventHandler } from "react"
-import { ProductDTO } from "../../../../../Share/ProductDTO"
 import { ActionPayload } from "../../Hooks/useSitesMovements"
 import { getProductsById } from "../../Services/ProductsService"
-import { SetAction } from "../../Types/TypesAliases"
 
 export const getSearchHandler = (selection: string, dispatch: React.Dispatch<ActionPayload>) => {
   const handler: MouseEventHandler = async () => {
