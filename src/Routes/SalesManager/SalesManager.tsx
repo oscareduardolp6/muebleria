@@ -33,8 +33,9 @@ export const SalesManager = () => {
   const handleSaveTransaction = async () => {
     console.log(orderProducts)
     const results = await Promise.allSettled(orderProducts.map(saveTransaction))
-    // const messages = results.map(JSON.stringify)
-    alert('kfjasl') //TODO: Aquí poner que aparezca la transformación en json 
+    const messages = results.map(result => result.status === 'fulfilled' ? result.value : result.reason)
+    const message = JSON.stringify(messages)
+    alert(message) 
   }
 
   const handleAddProductToOrder = () => {
