@@ -20,8 +20,10 @@ const getProductId = (selection: string) =>
 
 export const SalesManager = () => {
   const [selection, setSelection] = useState('')
-  const [maxStock, setMaxStock] = useState(0)
-  const [sellQuantity, setSellQuantity] = useState(1)
+  const [maxPrivateStock, setMaxPrivateStock] = useState(0)
+  const [maxPublicStock, setMaxPublicStock] = useState(0)
+  const [sellPrivateQuantity, setSellPrivateQuantity] = useState(1)
+  const [sellPublicQuantity, setSellPublicQuantity] = useState(0)
   const [clientSelection, setClientSelection] = useState('')
   const {orderProducts, displayOrderRows, addRow} = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
@@ -39,7 +41,8 @@ export const SalesManager = () => {
     const orderRowDTO: OrderRowDTO = {
       clientID: clientSelection, 
       productID: getProductId(selection), 
-      quantity: sellQuantity
+      privateSiteQuantity: sellPrivateQuantity, 
+      publicSiteQuantity: sellPublicQuantity
     }
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0, 
@@ -49,7 +52,7 @@ export const SalesManager = () => {
     }
 
     addRow(orderRowDTO, rowProductDTO)
-    setSellQuantity(1)
+    setSellPrivateQuantity(1)
     setSelection('')
   }
 
@@ -60,31 +63,71 @@ export const SalesManager = () => {
       return alert('Producto no encontrado')
     alert('Producto cargado')
     const { privateSiteQuantity: privateSite, showSiteQuantity: publicSite } = product
-    const total = privateSite + publicSite
-    setMaxStock(total)
+    // const total = privateSite + publicSite
+    setMaxPrivateStock(privateSite)
+    setMaxPublicStock(publicSite)
     setCurrentProduct(product)
-    setSellQuantity(1)
+    setSellPrivateQuantity(1)
+    setSellPublicQuantity(0)
   }
 
-  const increment = () => {
-    const newQuantity = sellQuantity + 1 
-    if(newQuantity > maxStock)
-      setSellQuantity(maxStock)
+  // const actionInStockClosure = (setter: any, varToSet: number, max: number, operation: 'add' | 'sustract') => {
+  //   const action = () => {
+  //     const newQuantity = operation === 'add' ? varToSet + 1 : varToSet - 1
+  //     return newQuantity > max
+  //               ? setter(max)
+  //               : newQuantity < 0 
+  //               ? setter(0)
+  //               : setter(newQuantity)
+  //   }
+  //   return action
+  // }
+
+  // const incrementPrivateStock = actionInStockClosure(setSellPrivateQuantity, sellPrivateQuantity, maxPrivateStock, 'add')
+  // const decrementPrivateStock = actionInStockClosure(setSellPrivateQuantity, sellPrivateQuantity, maxPrivateStock, 'sustract')
+  // const incrementPublicStock = actionInStockClosure(setSellPublicQuantity, sellPublicQuantity, maxPublicStock, 'add')
+  // const decrementPublicStock = actionInStockClosure(setSellPublicQuantity, sellPublicQuantity, maxPublicStock, 'sustract')
+
+  const incrementPrivateStock = () => {
+    const newQuantity = sellPrivateQuantity + 1 
+    if(newQuantity > maxPrivateStock)
+      setSellPrivateQuantity(maxPrivateStock)
     else if(newQuantity < 0)
-      setSellQuantity(0)
+      setSellPrivateQuantity(0)
     else 
-      setSellQuantity(newQuantity)
+      setSellPrivateQuantity(newQuantity)
   }
 
-  const decrement = () => {
-    const newQuantity = sellQuantity - 1 
-    if(newQuantity > maxStock)
-      setSellQuantity(maxStock)
-    else if (newQuantity < 0)
-      setSellQuantity(0)
+  const incrementPublicStock = () => {
+    const newQuantity = sellPublicQuantity + 1 
+    if(newQuantity > maxPublicStock)
+      setSellPublicQuantity(maxPublicStock)
+    else if(newQuantity < 0)
+      setSellPublicQuantity(0)
     else 
-      setSellQuantity(newQuantity)
+      setSellPublicQuantity(newQuantity)
   }
+
+  const decrementPrivateStock = () => {
+    const newQuantity = sellPrivateQuantity - 1 
+    if(newQuantity > maxPrivateStock)
+      setSellPrivateQuantity(maxPrivateStock)
+    else if (newQuantity < 0)
+      setSellPrivateQuantity(0)
+    else 
+      setSellPrivateQuantity(newQuantity)
+  }
+
+  const decrementPublicStock = () => {
+    const newQuantity = sellPublicQuantity - 1 
+    if(newQuantity > maxPublicStock) 
+      setSellPublicQuantity(maxPublicStock)
+    else if (newQuantity < 0)
+      setSellPublicQuantity(0)
+    else 
+      setSellPublicQuantity(newQuantity)
+  }
+
 
   const autoCompleteProducts = {
     selection, 
@@ -98,16 +141,27 @@ export const SalesManager = () => {
       <AutoCompleteClientsRow selection={clientSelection} setSelection={setClientSelection} handleClean={clearClientSelection} />
       <Row className="ml-5">
         <Column className='is-4'>
-          <Label>Cantidad</Label>
+          <Label>Cantidad en almacén</Label>
           <div className='is-flex is-justify-content-space-between'>
-            <TextInput disabled type='number' name='quantity' value={sellQuantity} />
-            <Button className='ml-5' buttonColor="success" onClick={handleAddProductToOrder}>Agregar a la venta</Button>
+            <TextInput disabled type='number' name='quantity' value={sellPrivateQuantity} />
           </div>
+        </Column>
+        <Column className='is-3 ml-6'>
+          <Label>Cantidad en Exhibición</Label>
+          <div className="is-flex is-justify-content-space-between">
+            <TextInput type='number' disabled name='publicQuantity' value={sellPublicQuantity}/>
+          </div>
+        </Column>
+        <Column>
+          <Button className='ml-5 mt-6' buttonColor="success" onClick={handleAddProductToOrder}>Agregar a la venta</Button>
         </Column>
       </Row>
       <Row className="ml-6">
-        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={decrement} >➖</Button>
-        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={increment}>➕</Button>
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={decrementPrivateStock} >➖</Button>
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={incrementPrivateStock}>➕</Button>
+        <Column className="is-2"></Column> {/*Solo para ajustar la posición de los botones */ }
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={decrementPublicStock} >➖</Button>
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={incrementPublicStock}>➕</Button>
       </Row>
       <Row className='mt-6 ml-6'>
         <Button className='column is-1' style={{ paddingBottom: '2em'}} buttonColor='link' onClick={handleSaveTransaction}>Guardar</Button>

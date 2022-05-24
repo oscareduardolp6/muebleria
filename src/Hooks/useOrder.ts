@@ -16,13 +16,14 @@ export const useOrder = () => {
 
   const addRow = (orderRow: OrderRowDTO, { price, mortgagePrice, name, publicPrice }: RowProductDTO) => {
     setOrderProducts([...orderProducts, orderRow])
-    const { quantity } = orderRow
+    const { privateSiteQuantity: quantity, publicSiteQuantity: publicQuantity } = orderRow
+    const totalQuantity = quantity + publicQuantity
     const newDisplayRow: DataRowOrder = {
-      basePrice: price * quantity, 
-      mortgagePrice: mortgagePrice * quantity, 
+      basePrice: price * totalQuantity, 
+      mortgagePrice: mortgagePrice * totalQuantity, 
       product: name, 
-      publicPrice: publicPrice * quantity , 
-      quantity: quantity, 
+      publicPrice: publicPrice * totalQuantity , 
+      quantity: totalQuantity, 
       unitPrice: price
     }
 
