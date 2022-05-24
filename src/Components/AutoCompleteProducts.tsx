@@ -17,6 +17,7 @@ export const AutoCompleteProducts = ({ value, setValue }: AutoCompleteProductsPr
   const handleChange = ({ target: { value }}: ChangeEvent) => setValue(value)
 
   const autoCompleteProps: AutoCompleteProps = {
+    name: 'products',
     value, 
     options, 
     onChange: handleChange

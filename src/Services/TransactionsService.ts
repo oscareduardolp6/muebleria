@@ -19,3 +19,4 @@ export const getAllTransactionAsDataRows = async (): Promise<DataRowTransaction[
   const rows = transactions.map(transactionDTOParse)
   return rows
 }
+

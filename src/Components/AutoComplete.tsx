@@ -2,11 +2,11 @@ import { Children, FC } from "react"
 import { InputProps } from "../Types/TypesAliases"
 import { TextInput } from "./TextInput"
 
-export const AutoComplete:FC<AutoCompleteProps> = ({ options, ...rest }) => {
+export const AutoComplete:FC<AutoCompleteProps> = ({ options, name, ...rest }) => {
   return(
     <>
-      <TextInput list='options' {...rest}/>
-      <datalist id='options' >
+      <TextInput list={`options-${name}`} {...rest}/>
+      <datalist id={`options-${name}`} >
         { 
           Children.toArray( 
             options.map( 
@@ -22,4 +22,5 @@ export const AutoComplete:FC<AutoCompleteProps> = ({ options, ...rest }) => {
 
 export interface AutoCompleteProps extends InputProps {
   options: string[]
+  name: string
 }

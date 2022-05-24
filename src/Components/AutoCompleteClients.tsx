@@ -16,6 +16,7 @@ export const AutoCompleteClients = ({ value, setValue }: AutoCompleteClientsProp
   const handleChange = ({ target: { value }}: ChangeEvent) => setValue(value)
 
   const autoCompleteProps: AutoCompleteProps = {
+    name: 'clients',
     value, 
     options, 
     onChange: handleChange
