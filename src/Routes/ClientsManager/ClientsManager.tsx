@@ -24,6 +24,8 @@ export const ClientsManager = () => {
   
   return (
     <>
+      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Mantenimiento Clientes</h1>
+      <hr />
       <form className='ml-5' onSubmit={handleSubmit}>
         <Row className='mt-5'>
           <Column className="is-4">

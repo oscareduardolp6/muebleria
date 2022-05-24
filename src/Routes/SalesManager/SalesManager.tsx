@@ -119,6 +119,8 @@ export const SalesManager = () => {
 
   return (
     <>
+      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Ventas</h1>
+      <hr />
       <ProductAutoCompleteRow {...autoCompleteProducts} />
       <AutoCompleteClientsRow selection={clientSelection} setSelection={setClientSelection} handleClean={clearClientSelection} />
       <Row className="ml-5">

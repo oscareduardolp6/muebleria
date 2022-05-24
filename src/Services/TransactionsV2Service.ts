@@ -1,6 +1,7 @@
 import axios from "axios";
 import StatusCode from "status-code-enum";
 import { OrderRowDTO } from "../../../../Share/OrderRowDTO";
+import { ProductDTO } from "../../../../Share/ProductDTO";
 import { BASE_URL } from "../Config/BaseURL";
 
 const myAxios = axios.create({ baseURL: `${BASE_URL}`})
@@ -27,8 +28,22 @@ const resultMessage: Record<Partial<SavedTransactionsResult>, string> = {
   416: 'No existe suficiente stock para satisfacer la transacción del producto: '
 }
 
-export const saveTransaction = async (order: OrderRowDTO): Promise<string> => {
-  const { status } = await myAxios.post(route, order, transactionSavedConfig)
+export const saveTransaction = async (order: OrderRowDTO): Promise<saveTransactionData> => {
+  const { status, data } = await myAxios.post(route, order, transactionSavedConfig)
+  const productData = data.transactionResults as productResult[]
+  console.log('Data del update ');
+  console.log(productData);
   const message = resultMessage[status] || DEFAULT_MESSAGE
-  return message + order.productID
+  const result: saveTransactionData = {
+    message: message + order.productID, 
+    productInfo: productData
+  }
+  return result
 }
+
+type saveTransactionData = {
+  message: string 
+  productInfo?: productResult[]
+}
+
+type productResult = Pick<ProductDTO, 'name' | 'id' | 'alertLowStockQuantity'>

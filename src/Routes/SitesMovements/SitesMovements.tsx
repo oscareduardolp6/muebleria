@@ -37,6 +37,8 @@ export const SitesMovements = () => {
 
   return (
     <>
+      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Movimientos entre almacenes</h1>
+      <hr />
       <Row className='ml-5 mt-5'>
         <Column className="is-4">
           <Label>Producto</Label>

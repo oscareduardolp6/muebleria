@@ -9,6 +9,8 @@ export const Transactions = () => {
 
   return (
     <>
+      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Transacciones</h1>
+      <hr />
       <TransactionsTable transactions={transactions}/>
     </>
   )

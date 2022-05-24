@@ -3,10 +3,10 @@
     "optionName": "Mantenimiento de Productos", 
     "optionRoute": "productManager"
   }, 
-  {
+  { 
     "optionName": "Ventas", 
-    "optionRoute": "sales"
-  }, 
+    "optionRoute": "salesManager"
+  },
   {
     "optionName": "Registro Clientes", 
     "optionRoute": "clientsManager"
@@ -24,15 +24,7 @@
     "optionRoute": "transactions"
   }, 
   {
-    "optionName": "Salir", 
-    "optionRoute": "exit"
-  }, 
-  {
     "optionName": "Manegador de Productos", 
     "optionRoute": "products"
-  }, 
-  { 
-    "optionName": "Ventas", 
-    "optionRoute": "salesManager"
-  }
+  } 
 ]

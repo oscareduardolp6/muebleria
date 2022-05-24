@@ -72,6 +72,8 @@ export const CreateProduct = () => {
   }
   return (
     <form className='m-6' onSubmit={handleSubmit}>
+      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Mantenimiento Productos</h1>
+      <hr />
       <Row>
         <Column className="is-flex">
           <SearchField
