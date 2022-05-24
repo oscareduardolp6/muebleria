@@ -11,13 +11,12 @@ import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
 import { RowProductDTO, useOrder } from "../../Hooks/useOrder"
 import { getProductsById } from "../../Services/ProductsService"
+import { saveTransaction } from "../../Services/TransactionsV2Service"
 
-const getProductId = (selection: string) => {
-  const includesHyphen = selection.includes('-')
-  return includesHyphen 
-          ? selection.split('-')[1].trim()
-          : selection
-}
+const getProductId = (selection: string) => 
+  selection.includes('-')
+    ? selection.split('-')[1].trim()
+    : selection
 
 export const SalesManager = () => {
   const [selection, setSelection] = useState('')
@@ -28,6 +27,13 @@ export const SalesManager = () => {
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   
   const clearClientSelection = () => setClientSelection('')
+
+  const handleSaveTransaction = async () => {
+    console.log(orderProducts)
+    const results = await Promise.allSettled(orderProducts.map(saveTransaction))
+    // const messages = results.map(JSON.stringify)
+    alert('kfjasl') //TODO: Aquí poner que aparezca la transformación en json 
+  }
 
   const handleAddProductToOrder = () => {
     const orderRowDTO: OrderRowDTO = {
@@ -45,7 +51,6 @@ export const SalesManager = () => {
     addRow(orderRowDTO, rowProductDTO)
     setSellQuantity(1)
     setSelection('')
-
   }
 
   const handleSearch = async () => {
@@ -101,11 +106,11 @@ export const SalesManager = () => {
         </Column>
       </Row>
       <Row className="ml-6">
-        <Button className="column is-1 ml-5" onClick={decrement} >➖</Button>
-        <Button className="column is-1 ml-5" onClick={increment}>➕</Button>
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={decrement} >➖</Button>
+        <Button className="column is-1 ml-5" style={{ paddingBottom: '2em' }} onClick={increment}>➕</Button>
       </Row>
       <Row className='mt-6 ml-6'>
-        <Button className='column is-1' style={{ paddingBottom: '2em'}} buttonColor='link'>Guardar</Button>
+        <Button className='column is-1' style={{ paddingBottom: '2em'}} buttonColor='link' onClick={handleSaveTransaction}>Guardar</Button>
         <Button buttonColor='danger' className='column is-1 ml-5' style={{paddingBottom: '2em'}}>Cancelar</Button>
       </Row>
       <OrderTable products={displayOrderRows} />
