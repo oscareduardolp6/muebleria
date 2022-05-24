@@ -64,30 +64,12 @@ export const SalesManager = () => {
       return alert('Producto no encontrado')
     alert('Producto cargado')
     const { privateSiteQuantity: privateSite, showSiteQuantity: publicSite } = product
-    // const total = privateSite + publicSite
     setMaxPrivateStock(privateSite)
     setMaxPublicStock(publicSite)
     setCurrentProduct(product)
     setSellPrivateQuantity(1)
     setSellPublicQuantity(0)
   }
-
-  // const actionInStockClosure = (setter: any, varToSet: number, max: number, operation: 'add' | 'sustract') => {
-  //   const action = () => {
-  //     const newQuantity = operation === 'add' ? varToSet + 1 : varToSet - 1
-  //     return newQuantity > max
-  //               ? setter(max)
-  //               : newQuantity < 0 
-  //               ? setter(0)
-  //               : setter(newQuantity)
-  //   }
-  //   return action
-  // }
-
-  // const incrementPrivateStock = actionInStockClosure(setSellPrivateQuantity, sellPrivateQuantity, maxPrivateStock, 'add')
-  // const decrementPrivateStock = actionInStockClosure(setSellPrivateQuantity, sellPrivateQuantity, maxPrivateStock, 'sustract')
-  // const incrementPublicStock = actionInStockClosure(setSellPublicQuantity, sellPublicQuantity, maxPublicStock, 'add')
-  // const decrementPublicStock = actionInStockClosure(setSellPublicQuantity, sellPublicQuantity, maxPublicStock, 'sustract')
 
   const incrementPrivateStock = () => {
     const newQuantity = sellPrivateQuantity + 1 
@@ -128,7 +110,6 @@ export const SalesManager = () => {
     else 
       setSellPublicQuantity(newQuantity)
   }
-
 
   const autoCompleteProducts = {
     selection, 
