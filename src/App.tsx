@@ -29,7 +29,7 @@ function App() {
         <Route path='/salesManager' element={ <SalesManager /> } />
         <Route path='/' element={<Transactions />} />
       </Routes>
-    </>
+  </>
   )
 }
 

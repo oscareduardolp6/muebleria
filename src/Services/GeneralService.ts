@@ -26,6 +26,7 @@ export const getByIdGenerator = <T>(route: string, dataKey: string) => {
 
 export const saveGenerator = <T>(route: string) => {
   const func = async (newItem: T): Promise<boolean> => {
+    console.log(newItem);
     const { status } = await myAxios.post(`${route}`, newItem, savePostConfig)
     return status === StatusCode.SuccessCreated
   }

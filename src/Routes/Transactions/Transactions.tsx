@@ -12,6 +12,7 @@ export const Transactions = () => {
       <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Transacciones</h1>
       <hr />
       <TransactionsTable transactions={transactions}/>
+      <a className='title is-7 has-text-white'  href="https://www.flaticon.com/free-icons/couch" title="couch icons">Couch icons created by Hilmy Abiyyu A. - Flaticon</a>
     </>
   )
 }
