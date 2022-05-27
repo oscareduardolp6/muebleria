@@ -10,8 +10,10 @@ import { ProductAutoCompleteRow } from "../../Components/ProductAutoCompleteRow"
 import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
 import { RowProductDTO, useOrder } from "../../Hooks/useOrder"
+import { loadFileToServer } from "../../Services/FilesService"
 import { getProductsById } from "../../Services/ProductsService"
 import { saveTransaction } from "../../Services/TransactionsV2Service"
+import { ChangeEvent } from "../../Types/TypesAliases"
 
 const getProductId = (selection: string) => 
   selection.includes('-')
@@ -27,11 +29,20 @@ export const SalesManager = () => {
   const [clientSelection, setClientSelection] = useState('')
   const {orderProducts, displayOrderRows, addRow} = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
+  const [selectedFile, setSelectedFile] = useState<any>(null)
   
   const clearClientSelection = () => setClientSelection('')
 
+  const handleFile = ({target: {files}}:ChangeEvent) => {
+    const data = files?.item(0)
+    console.log('Archivos');
+    console.log(files);
+    setSelectedFile(data)
+  }
+
   const handleSaveTransaction = async () => {
     console.log(orderProducts)
+    loadFileToServer(selectedFile)
     const results = await Promise.allSettled(orderProducts.map(saveTransaction))
     const messages = results.map(result => result.status === 'fulfilled' ? result.value : result.reason)
     const message = JSON.stringify(messages)
@@ -136,8 +147,23 @@ export const SalesManager = () => {
             <TextInput type='number' disabled name='publicQuantity' value={sellPublicQuantity}/>
           </div>
         </Column>
-        <Column>
+        <Column className="is-2">
           <Button className='ml-5 mt-6' buttonColor="success" onClick={handleAddProductToOrder}>Agregar a la venta</Button>
+        </Column>
+        <Column className='ml-6 mt-6'>
+          <div className="file is-info">
+            <label className="file-label">
+              <input className="file-input" type="file" name="resume" onChange={handleFile}/>
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload"></i>
+                </span>
+                <span className="file-label">
+                  Cargar Evidencia
+                </span>
+              </span>
+            </label>
+          </div>
         </Column>
       </Row>
       <Row className="ml-6">
