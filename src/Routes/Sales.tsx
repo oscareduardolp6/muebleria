@@ -22,11 +22,11 @@ export const Sales = () => {
   const sales: SaleDTO[] = []
   const [form, handleChange, _, setForm] = useForm(initialState)
   const handleSelection: HandleSelectionFunction = ({ selectedRows }) => {
-    setForm({
-      ...form, 
-      price: selectedRows[0].basePrice, 
-      productID: selectedRows[0].productID
-    })
+    // setForm({
+    //   ...form, 
+    //   price: selectedRows[0].basePrice, 
+    //   productID: selectedRows[0].productID
+    // })
   }
 
   const handleSave = async (e: any) => {

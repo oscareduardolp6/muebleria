@@ -13,13 +13,17 @@ export const initialState: ProductForm = {
   productID: '', 
   basePrice: {
     value: 0, 
-    nationalCurrency
+    currency: nationalCurrency
   }, 
   mortagePriceRelation: 1.25, 
   mortgagePrice: {
-    value: 0, 
-    nationalCurrency
+    currency: nationalCurrency, 
+    value: 0
   }, 
+  // mortgagePrice: {
+  //   value: 0, 
+  //   nationalCurrency
+  // }, 
   name: '', 
   privateStockQuantity: {
     quantity: 0, 
@@ -27,10 +31,13 @@ export const initialState: ProductForm = {
   }, 
   publicPrice: {
     value: 0, 
-    nationalCurrency
+    currency: nationalCurrency
   }, 
   publicPriceRelation: 1.5, 
-  publicStockQuantity: 0, 
+  publicStockQuantity: {
+    quantity: 0, 
+    unit: ''
+  }, 
   totalStockQuantity: {
     quantity: 0, 
     unit: 'unidades'

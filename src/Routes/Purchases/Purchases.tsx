@@ -38,6 +38,7 @@ export const Purchases = () => {
   const [product, setProduct] = useState<ProductDTO>()
   const [publicStock, setPublicStock] = useState(0)
   const [privateStock, setPrivateStock] = useState(0)
+  const [supplier, setSupplier] = useState('')
 
   const handleChangePrivateStock = handleChangeClosure(value => setPrivateStock(Number(value)))
   const handleChangePublicStock = handleChangeClosure(value => setPublicStock(Number(value)))
@@ -49,6 +50,8 @@ export const Purchases = () => {
       price: Number(value)
     })
   })
+
+  const handleSupplierChange = handleChangeClosure(setSupplier)
 
   const handleSearch = handleProductSearchClosure(selection, product => {
     setProduct(product)
@@ -62,7 +65,8 @@ export const Purchases = () => {
       privateStockAdded: privateStock, 
       productId: product.id , 
       publicStockAdded: publicStock, 
-      price: product.price
+      price: product.price, 
+      supplierId: supplier
     }
     const result = await savePurchase(purchase)
     const message = result ? 'Stock Agregado con éxito' : 'Problema al modificar el stock'
@@ -90,6 +94,10 @@ export const Purchases = () => {
         <Column className='is-2'>
         <Label>Precio de Compra</Label>
         <TextInput type='number' name='price' value={product?.price ?? 0} onChange={handleChangePrice} min='1'  /> 
+        </Column>
+        <Column className='is-3'>
+          <Label>Proveedor</Label>
+          <TextInput type='text' name='supplier' value={supplier} onChange={handleSupplierChange}  />
         </Column>
       </Row>
       <Row className="ml-5 mt-5">

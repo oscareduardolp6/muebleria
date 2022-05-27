@@ -12,7 +12,7 @@ import { TextInput } from "../../Components/TextInput"
 import { RowProductDTO, useOrder } from "../../Hooks/useOrder"
 import { loadFileToServer } from "../../Services/FilesService"
 import { getProductsById } from "../../Services/ProductsService"
-import { saveTransaction } from "../../Services/TransactionsV2Service"
+import { productResult, saveTransaction, saveTransactionData } from "../../Services/TransactionsV2Service"
 import { ChangeEvent } from "../../Types/TypesAliases"
 
 const getProductId = (selection: string) => 
@@ -42,11 +42,17 @@ export const SalesManager = () => {
 
   const handleSaveTransaction = async () => {
     console.log(orderProducts)
-    loadFileToServer(selectedFile)
     const results = await Promise.allSettled(orderProducts.map(saveTransaction))
-    const messages = results.map(result => result.status === 'fulfilled' ? result.value : result.reason)
-    const message = JSON.stringify(messages)
-    alert(message) 
+    await loadFileToServer(selectedFile)
+    const promisesResults = results.map(result => result.status === 'fulfilled' ? result.value : result.reason) as saveTransactionData[]
+    console.log('Promises Results');
+    console.log(promisesResults);
+    const transactionMessages = promisesResults.map(result => result.message)
+    const productNeedStock = promisesResults.map(result => result.productInfo?.map(info => `${info.name} - ${info.id}` ))
+    console.log('Products Need Stock');
+    console.log(productNeedStock);
+    alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
+    alert(`Productos que necesitan Stock: ${productNeedStock.join()}`)
   }
 
   const handleAddProductToOrder = () => {

@@ -14,8 +14,8 @@ export const parse = (transactionDTO: TransactionDTO): DataRowTransaction => {
     supplierId: transactionDTO.supplierId.toString(),
     transactionId: transactionDTO.transactionId.toString(), 
     type: `${transactionTypesDescription[transactionDTO.type]} ${typeSymbols[transactionDTO.type]}`, 
-    fromSite: transactionDTO.fromSite, 
-    toSite: transactionDTO.toSite
+    fromSite: transactionDTO.fromSite.toString(), 
+    toSite: transactionDTO.toSite.toString()
   }
   return transactionRow
 }

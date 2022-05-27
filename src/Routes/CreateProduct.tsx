@@ -100,7 +100,7 @@ export const CreateProduct = () => {
         <Column>
           <Label>Color</Label>
           <TextInput
-            value={form.color.name}
+            value={form.color?.name ?? ''}
             name='color.name'
             onChange={handleChange}
             placeholder='Rojo' />
@@ -108,7 +108,7 @@ export const CreateProduct = () => {
         <Column>
           <Label>Marca</Label>
           <TextInput
-            value={form.brand.name} 
+            value={form.brand?.name ?? ''} 
             name='brand.name'
             onChange={handleChange}
             placeholder='Generica'/>
@@ -126,7 +126,7 @@ export const CreateProduct = () => {
         <Column>
           <Label>Tela</Label>
           <TextInput 
-            value={form.fabric.name}
+            value={form.fabric?.name ?? ''}
             name='fabric.name'
             onChange={handleChange}
             placeholder='Algodón' />
@@ -134,7 +134,7 @@ export const CreateProduct = () => {
         <Column>
           <Label>Tamaño</Label>
           <TextInput 
-            value={form.size.name} 
+            value={form.size?.name ?? ''} 
             name='size.name'
             onChange={handleChange}
             placeholder='Mediana'/>

@@ -22,9 +22,5 @@
   {
     "optionName": "Reporte de transacciones", 
     "optionRoute": "transactions"
-  }, 
-  {
-    "optionName": "Manegador de Productos", 
-    "optionRoute": "products"
-  } 
+  }
 ]

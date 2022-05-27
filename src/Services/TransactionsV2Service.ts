@@ -30,7 +30,7 @@ const resultMessage: Record<Partial<SavedTransactionsResult>, string> = {
 
 export const saveTransaction = async (order: OrderRowDTO): Promise<saveTransactionData> => {
   const { status, data } = await myAxios.post(route, order, transactionSavedConfig)
-  const productData = data.transactionResults as productResult[]
+  const productData = data.transactionResults as Partial<ProductDTO>[]
   console.log('Data del update ');
   console.log(productData);
   const message = resultMessage[status] || DEFAULT_MESSAGE
@@ -41,9 +41,9 @@ export const saveTransaction = async (order: OrderRowDTO): Promise<saveTransacti
   return result
 }
 
-type saveTransactionData = {
+export type saveTransactionData = {
   message: string 
-  productInfo?: productResult[]
+  productInfo?: Partial<ProductDTO>[]
 }
 
-type productResult = Pick<ProductDTO, 'name' | 'id' | 'alertLowStockQuantity'>
+export type productResult = Pick<ProductDTO, 'name' | 'id' | 'alertLowStockQuantity'>
