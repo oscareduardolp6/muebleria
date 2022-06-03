@@ -10,6 +10,8 @@ export type ButtonTypes = "button" | "submit" | "reset" | undefined
 
 export type ChangeEvent = NativeChangeEvent<HTMLInputElement>
 
+export type ChangeEventSelect = NativeChangeEvent<HTMLSelectElement>
+
 export type ClickEvent = MouseEvent<HTMLDataListElement>
 
 export type SetAction<T> = Dispatch<SetStateAction<T>>

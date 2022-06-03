@@ -1,26 +1,70 @@
-import { useEffect, useState } from "react"
-import { ProductDTO } from "../../../../../Share/ProductDTO"
+import { useEffect, useState } from "react";
+import { Column } from "../../Components/Column";
+import { DropDown } from "../../Components/DropDown";
 import ProductTable from "../../Components/ProductTable_v2";
-import { getAllProducts } from "../../Services/ProductsService";
+import { Columns } from "../../Components/ProductTable_v2/Types";
+import { Row } from "../../Components/Row";
+import { useProductsInProductsTable } from "../../Hooks/useProductsInProductsTable";
+import { filterClosure } from "./Closures";
 
 export const ProductsReport = () => {
-  const [products, setProducts] = useState<ProductDTO[]>(); 
+  const [products, setProducts, getOriginalProducts] = useProductsInProductsTable()
+  const [categories, setCategories] = useState<string[]>([])
+  const [prices, setPrices] = useState<string[]>([])
 
   useEffect(() => {
-    const asyncEffect = async () => {
-      const serviceProducts = await getAllProducts(); 
-      if(!serviceProducts) return alert('Hubo un problema recuperando los productos, por favor reintente')
-      setProducts(serviceProducts)
-      console.log(serviceProducts);
-      
-    }
-    asyncEffect()
-  }, [])
+    const categories = getCategories(getOriginalProducts() ?? [])
+    const prices = getPrices(getOriginalProducts() ?? [])
+    setCategories(categories)
+    setPrices(prices)
+  }, [products])
 
+  const createFilter = (key:  keyof Columns) => {
+    return filterClosure({
+      key, 
+      setProducts, 
+      products, 
+      originalProducts: getOriginalProducts, 
+      emptyValue: ''
+    })
+  }
+
+  const filterByCategory = createFilter('color')
+
+  const filterByPrice = createFilter('price')
 
   return (
     <>
-      <ProductTable></ProductTable>
+      <Row className="ml-5 mb-5 mt-5">
+        <Column className=' is-2'>
+          <DropDown 
+            defaultText='Seleccione una categoría' 
+            onChange={filterByCategory} 
+            labelText='Categoría' 
+            options={categories} />
+        </Column>
+        <Column>
+          <DropDown  
+            defaultText='Seleccione un precio' 
+            onChange={filterByPrice} 
+            labelText='Precio' 
+            options={prices} />
+        </Column>
+      </Row>
+      <hr className='mx-5' />
+      <div className="mt-5 mx-5">
+        <ProductTable products={products} />
+      </div>
     </>
   )
 }
+
+const getKeyOfColumns = (key: keyof Columns) => 
+  (products: Columns[]): string[] => {
+    const filterElements = products.map(product => product[key] as string)
+    const elements = new Set(filterElements)
+    return [...elements]
+  }
+
+const getCategories = getKeyOfColumns('color')
+const getPrices = getKeyOfColumns('price')
