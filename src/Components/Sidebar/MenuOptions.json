@@ -3,6 +3,10 @@
     "optionName": "Mantenimiento de Productos", 
     "optionRoute": "productManager"
   }, 
+  {
+    "optionName": "Reporte de Productos", 
+    "optionRoute": "productsReport"
+  },
   { 
     "optionName": "Ventas", 
     "optionRoute": "salesManager"

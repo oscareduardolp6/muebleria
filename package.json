@@ -2,10 +2,11 @@
   "name": "muebleria",
   "private": true,
   "version": "0.0.0",
-  "main": "dist/electron.js",
-  "author": "Oscar Lopez", 
-  "description": "Proyecto para muebleria JM" , 
+  "main": "build/electron.js",
+  "author": "Oscar Lopez",
+  "description": "Proyecto para muebleria JM",
   "scripts": {
+    "webpackBuild": "webpack --mode=development",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -42,12 +43,19 @@
     "@types/styled-components": "^5.1.25",
     "@vitejs/plugin-react": "^1.0.7",
     "concurrently": "^7.0.0",
+    "css-loader": "^6.7.1",
     "electron": "^17.2.0",
     "electron-is-dev": "^2.0.0",
+    "node-sass": "^7.0.1",
     "sass": "^1.49.9",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.3.0",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
-    "wait-on": "^6.0.1"
+    "wait-on": "^6.0.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2"
   },
   "config": {
     "forge": {

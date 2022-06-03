@@ -1,5 +1,4 @@
 import './Sass/mySassStyles.sass'
-
 import { Header } from "./Components/Header"
 import { SideBar } from "./Components/Sidebar/SideBar"
 import { Routes, Route } from 'react-router-dom'
@@ -12,6 +11,7 @@ import { SitesMovements } from "./Routes/SitesMovements/SitesMovements"
 import Purchases from "./Routes/Purchases"
 import ProductManager from "./Routes/ProductManager"
 import SalesManager from "./Routes/SalesManager"
+import ProductsReport from './Routes/ProductsReport'
 
 function App() {
   return (
@@ -27,6 +27,7 @@ function App() {
         <Route path='/products' element={<ProductManager />} />
         <Route path='/salesManager' element={ <SalesManager /> } />
         <Route path='/' element={<Transactions />} />
+        <Route path='/productsReport' element={<ProductsReport />} />
       </Routes>
   </>
   )
