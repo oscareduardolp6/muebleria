@@ -98,7 +98,7 @@ export const CreateProduct = () => {
           </ProductFormField>
         </Column>
         <Column>
-          <Label>Color</Label>
+          <Label>Categoría</Label>
           <TextInput
             value={form.color?.name ?? ''}
             name='color.name'
