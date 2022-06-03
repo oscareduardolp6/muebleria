@@ -10,6 +10,7 @@ import { getProductsById } from "../../Services/ProductsService"
 import { ChangeEvent } from "../../Types/TypesAliases"
 import { PurchaseDTO } from "../../../../../Share/PurchaseDTO"
 import { savePurchase } from "../../Services/PurchasesService"
+import { RouteTitle } from "../../Components/RouteTitle"
 
 const getProductId = (selection: string) => 
   selection.includes('-')
@@ -81,8 +82,7 @@ export const Purchases = () => {
   }
   return (
     <>
-      <h1 className="title is-1 mt-5 ml-6 has-text-primary">Compras</h1>
-      <hr />
+      <RouteTitle>Compras</RouteTitle>
       <ProductAutoCompleteRow {...autoCompleteProducts} />
       <hr className='mx-6' />
       <Label className='ml-6'>ID Producto: <span className='has-text-weight-light ml-3'>{product?.id ?? ''}</span></Label>

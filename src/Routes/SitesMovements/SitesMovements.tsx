@@ -4,6 +4,7 @@ import { AutoCompleteProducts } from "../../Components/AutoCompleteProducts"
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
 import { Label } from "../../Components/Label"
+import { RouteTitle } from "../../Components/RouteTitle"
 import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
 import { siteMovementsReducer } from "../../Hooks/useSitesMovements"
@@ -37,8 +38,7 @@ export const SitesMovements = () => {
 
   return (
     <>
-      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Movimientos entre almacenes</h1>
-      <hr />
+      <RouteTitle>Movimientos entre almacenes</RouteTitle>
       <Row className='ml-5 mt-5'>
         <Column className="is-4">
           <Label>Producto</Label>

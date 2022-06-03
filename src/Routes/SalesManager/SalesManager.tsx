@@ -7,6 +7,7 @@ import { Column } from "../../Components/Column"
 import { Label } from "../../Components/Label"
 import OrderTable from "../../Components/OrderTable"
 import { ProductAutoCompleteRow } from "../../Components/ProductAutoCompleteRow"
+import { RouteTitle } from "../../Components/RouteTitle"
 import { Row } from "../../Components/Row"
 import { TextInput } from "../../Components/TextInput"
 import { RowProductDTO, useOrder } from "../../Hooks/useOrder"
@@ -136,8 +137,7 @@ export const SalesManager = () => {
 
   return (
     <>
-      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Ventas</h1>
-      <hr />
+      <RouteTitle>Ventas</RouteTitle>
       <ProductAutoCompleteRow {...autoCompleteProducts} />
       <AutoCompleteClientsRow selection={clientSelection} setSelection={setClientSelection} handleClean={clearClientSelection} />
       <Row className="ml-5">

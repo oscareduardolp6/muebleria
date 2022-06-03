@@ -3,6 +3,7 @@ import { Column } from "../../Components/Column";
 import { DropDown } from "../../Components/DropDown";
 import ProductTable from "../../Components/ProductTable_v2";
 import { Columns } from "../../Components/ProductTable_v2/Types";
+import { RouteTitle } from "../../Components/RouteTitle";
 import { Row } from "../../Components/Row";
 import { useProductsInProductsTable } from "../../Hooks/useProductsInProductsTable";
 import { filterClosure } from "./Closures";
@@ -35,6 +36,7 @@ export const ProductsReport = () => {
 
   return (
     <>
+      <RouteTitle>Reporte de Productos</RouteTitle>
       <Row className="ml-5 mb-5 mt-5">
         <Column className=' is-2'>
           <DropDown 

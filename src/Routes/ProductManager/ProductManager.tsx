@@ -4,6 +4,7 @@ import { AutoCompleteProducts } from "../../Components/AutoCompleteProducts"
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
 import { Label } from "../../Components/Label"
+import { RouteTitle } from "../../Components/RouteTitle"
 import { Row } from "../../Components/Row"
 import { TextAreaInput } from "../../Components/TextAreaInput"
 import { TextInput } from "../../Components/TextInput"
@@ -39,8 +40,7 @@ export const ProductManager = () => {
 
   return (
     <>
-      <h1 className='title is-1 mt-5 ml-6 has-text-primary'>Mantenimiento Productos</h1>
-      <hr />
+      <RouteTitle>Mantenimiento Productos</RouteTitle>
       <Row className='ml-5 mt-5'>
         <Column className='is-3'>
           <Label>ID del Producto</Label>
