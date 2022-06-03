@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { ProductDTO } from "../../../../../Share/ProductDTO"
-import { ProductTable } from "../../Components/ProductTable/ProductTable";
+import ProductTable from "../../Components/ProductTable_v2";
 import { getAllProducts } from "../../Services/ProductsService";
 
 export const ProductsReport = () => {
@@ -20,7 +20,7 @@ export const ProductsReport = () => {
 
   return (
     <>
-      
+      <ProductTable></ProductTable>
     </>
   )
 }

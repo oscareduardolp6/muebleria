@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 out/
+build/bundle.js
+build/bundle.js.map
