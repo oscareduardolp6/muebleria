@@ -26,3 +26,4 @@ dist-ssr
 out/
 build/bundle.js
 build/bundle.js.map
+build/bundle.js.LICENSE.txt
