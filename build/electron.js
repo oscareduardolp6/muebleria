@@ -1,6 +1,7 @@
 const {app, BrowserWindow, protocol} = require('electron')
 const path = require('path');
 const url = require('url');
+const exec = require('child_process').execFile
 
 let mainWindow
 
@@ -9,6 +10,15 @@ const startUrl = process.env.ELECTRON_START_URL || url.format({
   protocol: 'file:',
   slashes: true,
 });
+
+const initializeServer = () => {
+  console.log('Comenzando a lanzar el servidor');
+  const serverPath = path.join(__dirname, './assets/Server.exe')
+  exec(serverPath, (err, data) => {
+    console.log(err);
+    console.log(data.toString());
+  })
+}
 
 function createWindow () {
   // Create the browser window.
@@ -25,6 +35,7 @@ function createWindow () {
 
   console.log('DirName');
   console.log(__dirname);
+  initializeServer(); 
   // mainWindow.loadURL(startUrl);
   mainWindow.loadURL('http://localhost:3000/')
   mainWindow.maximize()
@@ -60,6 +71,9 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
