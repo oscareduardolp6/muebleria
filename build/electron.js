@@ -35,7 +35,7 @@ function createWindow () {
 
   console.log('DirName');
   console.log(__dirname);
-  initializeServer(); 
+  // initializeServer(); 
   // mainWindow.loadURL(startUrl);
   mainWindow.loadURL('http://localhost:3000/')
   mainWindow.maximize()

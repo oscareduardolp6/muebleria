@@ -1,4 +1,5 @@
 import { ClientDTO } from "../../../../../Share/ClientDTO";
+import { alerter } from "../../Constants/Notifiers";
 import { saveClient, updateClient } from "../../Services/ClientService";
 
 export const getSubmitHandler = ({ form , toggleSubmitButton, reset, isUpdate}: getSubmitHandlerParams) => {
@@ -12,11 +13,11 @@ export const getSubmitHandler = ({ form , toggleSubmitButton, reset, isUpdate}: 
       createdOrUpdated = await saveClient(form)
 
     const message = isUpdate && createdOrUpdated 
-                      ? `El Cliente con el ID ${form.clientId} fue actualizado con éxito` 
+                      ? alerter.alert(`El Cliente con el ID ${form.clientId} fue actualizado con éxito`)
                       : createdOrUpdated 
-                      ? `El Cliente con el ID: ${form.clientId} fue creado con éxito` 
-                      : `Hubo un problema al crear el cliente ${form.clientId}, por favor, vuelva a intentar`
-    alert(message)
+                      ? alerter.alert(`El Cliente con el ID: ${form.clientId} fue creado con éxito`)
+                      : alerter.alertError(`Hubo un problema al crear el cliente ${form.clientId}, por favor, vuelva a intentar`) 
+    // alert(message)
     toggleSubmitButton && toggleSubmitButton()
     createdOrUpdated && reset && reset()
   }

@@ -1,6 +1,6 @@
 import { ProductDTO } from "../../../../Share/ProductDTO"
 
-type myStateType = Partial<ProductDTO> | null | undefined
+export type myStateType = Partial<ProductDTO> | null | undefined
 
 type ActionType = 
     'incrementPublicSiteQuantity' 

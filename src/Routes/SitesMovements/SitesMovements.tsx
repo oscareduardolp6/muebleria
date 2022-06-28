@@ -6,11 +6,13 @@ import { Column } from "../../Components/Column"
 import { Label } from "../../Components/Label"
 import { RouteTitle } from "../../Components/RouteTitle"
 import { Row } from "../../Components/Row"
-import { TextInput } from "../../Components/TextInput"
+import { alerter } from "../../Constants/Notifiers"
 import { siteMovementsReducer } from "../../Hooks/useSitesMovements"
 import { updateProduct } from "../../Services/ProductsService"
 import { DecrementButton, IncrementButton } from "./ActionsButtons"
 import { getSearchHandler } from "./HandlerGenerators"
+import { SaveButton } from "./SaveButton"
+import { SiteQuantityInput } from "./SiteQuantityInput"
 
 const initialState: Partial<ProductDTO> = {
   showSiteQuantity: 0, 
@@ -30,10 +32,9 @@ export const SitesMovements = () => {
 
   const handleSave = async () => {
     const updated = await updateProduct(product as ProductDTO)
-    const message = updated 
-                      ? `Producto con ID: ${product?.id} fue actualizado con éxito`
-                      : `Producto con ID: ${product?.id} tuvo un problema para ser actualizado`
-    alert(message)
+    updated 
+      ? alerter.alert(`Producto con ID: ${product?.id} fue actualizado con éxito`) 
+      : alerter.alertError(`Producto con ID: ${product?.id} tuvo un problema para ser actualizado`)
   }
 
   return (
@@ -58,12 +59,8 @@ export const SitesMovements = () => {
         </Column>
       </Row>
       <Row>
-        <Column className='is-4 is-offset-1 mt-5'>
-          <TextInput disabled type='number' name="showSiteQuantity"  value={product?.showSiteQuantity ?? 0}/>
-        </Column>
-        <Column className='is-4 is-offset-1 mt-5'>
-          <TextInput disabled type='number' name='privateSiteQuantity'  value={product?.privateSiteQuantity ?? 0} />
-        </Column>
+        <SiteQuantityInput name='showSiteQuantity' product={product} />
+        <SiteQuantityInput name='privateSiteQuantity' product={product} />
       </Row>
       <Row className="mt-5">
         <DecrementButton onClick={decrementPublicSite}/>
@@ -71,15 +68,7 @@ export const SitesMovements = () => {
         <DecrementButton onClick={decrementPrivateSite} className="is-offset-3"/>
         <IncrementButton onClick={incrementPrivateSite}/>
       </Row>
-      <Row>
-        <Button 
-          className="column is-offset-5 mt-6 is-1" 
-          style={{paddingBottom: '2em' }} 
-          buttonColor='success'
-          onClick={handleSave}>
-            Guardar
-        </Button>
-      </Row>
+      <SaveButton handleSave={handleSave} />
     </>
   )
 }

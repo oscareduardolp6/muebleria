@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react"
+import { alerter } from "../../Constants/Notifiers"
 import { ActionPayload } from "../../Hooks/useSitesMovements"
 import { getProductsById } from "../../Services/ProductsService"
 
@@ -10,7 +11,9 @@ export const getSearchHandler = (selection: string, dispatch: React.Dispatch<Act
                 : selection 
     const product = await getProductsById(id)
     if(!product)
-      alert('Producto no encontrado')
+      alerter.alertError('Producto no encontrado')
+    else 
+      alerter.alert('Producto cargado')
     dispatch({
       action: "setProduct", 
       state: product

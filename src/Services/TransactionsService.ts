@@ -16,7 +16,28 @@ export const getAllTransactionAsDataRows = async (): Promise<DataRowTransaction[
     return []
   }
   if(!transactions) return []
-  const rows = transactions.map(transactionDTOParse)
+  let rows = transactions.map(transactionDTOParse)
+  if(transactions.length > 1) 
+    rows = [...rows, getTotalRow(rows)]
   return rows
 }
 
+export const getTotalRow  = (rows: DataRowTransaction[]) => {
+  const prices = rows.map(row => row.price)
+  const quantities = rows.map(row => row.quantity)
+  const totalPrice = prices.reduce((prev, current) => Number(prev) + Number(current), 0)
+  const totalQuantity = quantities.reduce((prev, current) => Number(prev) + Number(current), 0)
+  const result: DataRowTransaction = {
+    clientId: '', 
+    date: '', 
+    fromSite: '', 
+    price: totalPrice.toString() , 
+    productId: '', 
+    quantity: totalQuantity.toString(), 
+    supplierId: '', 
+    toSite: '', 
+    transactionId: 'Total', 
+    type: 'Total'
+  }
+  return result
+}

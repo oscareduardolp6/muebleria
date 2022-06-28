@@ -11,6 +11,7 @@ import { ChangeEvent } from "../../Types/TypesAliases"
 import { PurchaseDTO } from "../../../../../Share/PurchaseDTO"
 import { savePurchase } from "../../Services/PurchasesService"
 import { RouteTitle } from "../../Components/RouteTitle"
+import { alerter } from "../../Constants/Notifiers"
 
 const getProductId = (selection: string) => 
   selection.includes('-')
@@ -22,8 +23,8 @@ const handleProductSearchClosure = (selection:string, callbackWithProduct: (prod
     const id = getProductId(selection)
     const product = await getProductsById(id)
     if(!product)
-      return alert('Producto no encontrado')
-    alert('Producto Encontrado')
+      return alerter.alertError('Producto no encontrado')
+    alerter.alert('Producto Encontrado')
     callbackWithProduct(product)
   }
   return handleSearch
@@ -43,7 +44,6 @@ export const Purchases = () => {
 
   const handleChangePrivateStock = handleChangeClosure(value => setPrivateStock(Number(value)))
   const handleChangePublicStock = handleChangeClosure(value => setPublicStock(Number(value)))
-  // const handleChangePrice = handleChangeClosure(value => setPrice(Number(value)))
   const handleChangePrice = handleChangeClosure(value => {
     if(!product) return 
     setProduct({
@@ -61,7 +61,7 @@ export const Purchases = () => {
   })
 
   const handleSavePurchase = async () => {
-    if(!product?.id) return alert('No hay producto seleccionado')
+    if(!product?.id) return alerter.alertError('No hay producto seleccionado'); 
     const purchase: PurchaseDTO = {
       privateStockAdded: privateStock, 
       productId: product.id , 
@@ -70,8 +70,7 @@ export const Purchases = () => {
       supplierId: supplier
     }
     const result = await savePurchase(purchase)
-    const message = result ? 'Stock Agregado con éxito' : 'Problema al modificar el stock'
-    alert(message)
+    result ? alerter.alert('Stock agregado con éxito') : alerter.alertError('Problema al modificar el stock')
     handleSearch()
   }
   const autoCompleteProducts = {

@@ -14,6 +14,8 @@ export type ChangeEventSelect = NativeChangeEvent<HTMLSelectElement>
 
 export type ClickEvent = MouseEvent<HTMLDataListElement>
 
+export type SubmitHandler = React.FormEventHandler<HTMLFormElement>
+
 export type SetAction<T> = Dispatch<SetStateAction<T>>
 
 export type HTMLButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>

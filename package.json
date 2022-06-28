@@ -14,11 +14,13 @@
     "electron": "wait-on tcp:3000 && electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make", 
+    "make-electron": "webpack --mode=production && electron-forge make"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "bulma": "^0.9.3",
+    "bulma-toast": "^2.4.1",
     "electron-squirrel-startup": "^1.0.0",
     "formik": "^2.2.9",
     "react": "^17.0.2",

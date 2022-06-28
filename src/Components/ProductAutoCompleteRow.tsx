@@ -21,6 +21,6 @@ export const ProductAutoCompleteRow = ({selection, setSelection: setValue, handl
 export interface ProductAutoCompleteRowProps {
   selection: string
   setSelection: SetAction<string>
-  handleSearch: (e: any) => Promise<void>
+  handleSearch: (e: any) => Promise<void> | ((e: any) => void)
   clearSelection?: (e: any) => void
 }

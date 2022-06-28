@@ -19,7 +19,7 @@ function App() {
       <SideBar/>
       <Header/>
       <Routes>
-        <Route path='/productManager' element={<CreateProduct />} />
+        <Route path='/productManager' element={<ProductManager />} />
         <Route path='/clientsManager' element={<ClientsManager />} />
         <Route path='/transactions' element={<Transactions/>} />
         <Route path='/siteMovs' element={<SitesMovements />}/>
