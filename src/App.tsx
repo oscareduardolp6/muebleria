@@ -12,6 +12,7 @@ import Purchases from "./Routes/Purchases"
 import ProductManager from "./Routes/ProductManager"
 import SalesManager from "./Routes/SalesManager"
 import ProductsReport from './Routes/ProductsReport'
+import CreateSeller from './Routes/CreateSeller'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path='/salesManager' element={ <SalesManager /> } />
         <Route path='/' element={<Transactions />} />
         <Route path='/productsReport' element={<ProductsReport />} />
+        <Route path='/sellerManager' element={<CreateSeller />} />
       </Routes>
   </>
   )

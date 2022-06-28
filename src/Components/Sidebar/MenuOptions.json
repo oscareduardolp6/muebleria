@@ -26,5 +26,10 @@
   {
     "optionName": "Reporte de transacciones", 
     "optionRoute": "transactions"
+  }, 
+  {
+    "optionName": "Crear Vendedor", 
+    "optionRoute": "sellerManager"
   }
+
 ]
