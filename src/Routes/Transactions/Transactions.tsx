@@ -1,4 +1,5 @@
-import { CSSProperties } from "react"
+import { CSSProperties, useRef } from "react"
+import ReactToPrint from "react-to-print"
 import { transactionTypesDescription } from "../../../../../Share/TransactionDTO"
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
@@ -54,6 +55,7 @@ export const Transactions = () => {
   }
 
   const buttonStyle: CSSProperties = { marginTop: '2.5em'}
+  const componentToPrint = useRef(null)
 
   return (
     <>
@@ -86,8 +88,14 @@ export const Transactions = () => {
         <Column className='is-1'>
           <Button style={buttonStyle} buttonColor='info' onClick={resetFilters}>Limpiar</Button>
         </Column>
+        <Column className="is-1">
+          <ReactToPrint 
+            trigger={() => <Button style={buttonStyle} buttonColor='info'>Imprimir Tabla</Button>} 
+            content={() => componentToPrint.current} 
+            />
+        </Column>
       </Row>
-      <TransactionsTable transactions={transactions}/>
+      <TransactionsTable transactions={transactions} ref={componentToPrint}/>
       <FlaticonAttribution />
     </>
   )
