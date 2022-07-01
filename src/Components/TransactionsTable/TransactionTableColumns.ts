@@ -13,7 +13,8 @@ const myColumns: DataRowTransaction = {
   clientId: 'ID Cliente',
   supplierId: 'Proveedor',
   fromSite: 'Origen', 
-  toSite: 'Destino'
+  toSite: 'Destino', 
+  sellerId: 'Id Vendedor'
 }
 
 const entries = Object.entries(myColumns)

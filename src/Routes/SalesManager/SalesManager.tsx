@@ -24,7 +24,7 @@ import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
 
-const getProductId = (selection: string) =>
+const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
 
 export const SalesManager = () => {
@@ -73,9 +73,10 @@ export const SalesManager = () => {
   const handleAddProductToOrder = () => {
     const orderRowDTO: OrderRowDTO = {
       clientID: clientSelection,
-      productID: getProductId(selection),
+      productID: getId(selection),
       privateSiteQuantity: sellPrivateStockQuantity,
       publicSiteQuantity: sellPublicStockQuantity,
+      sellerID: getId(sellerSelection)
     }
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0,
@@ -92,7 +93,7 @@ export const SalesManager = () => {
   const clearProductSearch = () => setSelection('')
 
   const handleSearch = async () => {
-    const id = getProductId(selection)
+    const id = getId(selection)
     const product = await getProductsById(id)
     if (!product) return alerter.alertError('Producto no encontrado')
     alerter.alert('Producto cargado con éxito')

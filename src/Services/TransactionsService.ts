@@ -2,6 +2,7 @@ import { TransactionDTO } from "../../../../Share/TransactionDTO";
 import { parse as transactionDTOParse } from "../Components/TransactionsTable/TransactionDTOToDataRowTransactionParser";
 import { getAllGenerator } from "./GeneralService";
 import { DataRowTransaction } from '../Components/TransactionsTable/TransactionTableColumns';
+import { alerter } from "../Constants/Notifiers";
 
 const route = '/transactions'
 
@@ -11,7 +12,8 @@ export const getAllTransactionAsDataRows = async (): Promise<DataRowTransaction[
   try {
     transactions = await getAllTransactions()
   } catch (error) {
-    alert('Servidor no levantado :(')
+    // alert('Servidor no levantado :(')
+    alerter.alertError('Servidor no levantado :(') 
     console.error(error)
     return []
   }
@@ -37,7 +39,8 @@ export const getTotalRow  = (rows: DataRowTransaction[]) => {
     supplierId: '', 
     toSite: '', 
     transactionId: 'Total', 
-    type: 'Total'
+    type: 'Total', 
+    sellerId: ''
   }
   return result
 }
