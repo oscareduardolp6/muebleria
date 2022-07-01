@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { ColumnSize4 as Column4 } from './../../Components/ColumnSize4'
 import { OrderRowDTO } from '../../../../../Share/OrderRowDTO'
 import { ProductDTO } from '../../../../../Share/ProductDTO'
 import { AutoCompleteClientsRow } from '../../Components/AutoCompleteClientsRow'
@@ -21,6 +22,8 @@ import {
   saveTransactionData,
 } from '../../Services/TransactionsV2Service'
 import { ChangeEvent } from '../../Types/TypesAliases'
+import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
+import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
 
 const getProductId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
@@ -28,6 +31,7 @@ const getProductId = (selection: string) =>
 export const SalesManager = () => {
   const [selection, setSelection] = useState('')
   const [clientSelection, setClientSelection] = useState('')
+  const [sellerSelection, setSellerSelection] = useState('')
   const { orderProducts, displayOrderRows, addRow } = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   const [selectedFile, setSelectedFile] = useState<any>(null)
@@ -116,11 +120,26 @@ export const SalesManager = () => {
     <>
       <RouteTitle>Ventas</RouteTitle>
       <ProductAutoCompleteRow {...autoCompleteProducts} />
-      <AutoCompleteClientsRow
+      <Row className='ml-5'>
+        <Column4>
+          <Label>ID del Cliente</Label>
+          <div className="is-flex is-justify-content-space-between">
+            <AutoCompleteClients setValue={setClientSelection} value={clientSelection} />
+            <Button className='ml-4' onClick={clearClientSelection} buttonColor='info'>Limpiar</Button>
+          </div>
+        </Column4>
+        <Column4>
+          <Label>ID del vendedor</Label>
+          <div className="is-flex is-justify-content-space-between">
+            <AutoCompleteSelles setValue={setSellerSelection} value={sellerSelection} />
+          </div>
+        </Column4>
+      </Row>
+      {/* <AutoCompleteClientsRow
         selection={clientSelection}
         setSelection={setClientSelection}
         handleClean={clearClientSelection}
-      />
+      /> */}
       <Row className='ml-5'>
         <Column className='is-4'>
           <Label>Cantidad en almacén</Label>
