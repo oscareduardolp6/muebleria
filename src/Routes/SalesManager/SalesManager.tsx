@@ -1,8 +1,7 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { ColumnSize4 as Column4 } from './../../Components/ColumnSize4'
 import { OrderRowDTO } from '../../../../../Share/OrderRowDTO'
 import { ProductDTO } from '../../../../../Share/ProductDTO'
-import { AutoCompleteClientsRow } from '../../Components/AutoCompleteClientsRow'
 import { Button } from '../../Components/Button'
 import { Column } from '../../Components/Column'
 import { ImageInput } from '../../Components/ImageInput'
@@ -135,11 +134,6 @@ export const SalesManager = () => {
           </div>
         </Column4>
       </Row>
-      {/* <AutoCompleteClientsRow
-        selection={clientSelection}
-        setSelection={setClientSelection}
-        handleClean={clearClientSelection}
-      /> */}
       <Row className='ml-5'>
         <Column className='is-4'>
           <Label>Cantidad en almacén</Label>
