@@ -1,7 +1,7 @@
 import { TableColumn } from "react-data-table-component";
 import { TransactionDTO } from "../../../../../Share/TransactionDTO"
 
-export type DataRowTransaction = Record<keyof TransactionDTO, string>
+export type DataRowTransaction = Record<keyof Omit<TransactionDTO, 'sellerId'>, string>
 
 const myColumns: DataRowTransaction = {
   transactionId: 'Transacción', 
@@ -14,7 +14,7 @@ const myColumns: DataRowTransaction = {
   supplierId: 'Proveedor',
   fromSite: 'Origen', 
   toSite: 'Destino', 
-  sellerId: 'Id Vendedor'
+  sellerName: 'Vendedor'
 }
 
 const entries = Object.entries(myColumns)

@@ -4,6 +4,7 @@ import { transactionTypesDescription } from "../../../../../Share/TransactionDTO
 import { Button } from "../../Components/Button"
 import { Column } from "../../Components/Column"
 import { ColumnSize2 as Column2 } from "../../Components/ColumnSize2"
+import { ColumnSize3 as Column3 } from "../../Components/ColumnSize3"
 import { DropDown } from "../../Components/DropDown"
 import { Label } from "../../Components/Label"
 import { RouteTitle } from "../../Components/RouteTitle"
@@ -20,6 +21,7 @@ import { getAllTransactionAsDataRows, getTotalRow } from "../../Services/Transac
 import { ChangeEvent } from "../../Types/TypesAliases"
 import { getTodayInInputFormat } from "../../Utils/Date"
 import { convertTransactionDateToDate } from "../../Utils/Transactions"
+import { SellersFilter } from "./Filters/SellersFilter"
 import { FlaticonAttribution } from "./FlaticonAttribution"
 
 export const Transactions = () => {
@@ -41,6 +43,8 @@ export const Transactions = () => {
         date: convertInputDateStringToDate(value)
       }
     })
+
+    const sellersOptions = getOriginalTransactions().map(transaction => transaction.sellerName)
 
   const handleFilter = () => 
     setTransactions(filterTransactions({
@@ -80,6 +84,11 @@ export const Transactions = () => {
         <Column>
           <TransactionTypesFilter form={form} handleChange={handleChange} />
         </Column>
+        </Row>
+        <Row className='ml-5'>
+          <Column3>
+            <SellersFilter options={sellersOptions} onChange={handleChange} />
+          </Column3>
         </Row>
         <Row>
         <Column className='is-1 ml-6'>
@@ -122,7 +131,8 @@ const filterTransactions = ({
     finalDate, 
     client, 
     supplier, 
-    transactionType
+    transactionType, 
+    seller
   },
   getOriginalTransactions
 }: FilterTransactionClosureParams) => {
@@ -135,6 +145,7 @@ const filterTransactions = ({
   
   const hasSupplierFilter = supplier !== EMPTY_SEARCH_VALUE
   const hasTransactionTypeFilter = transactionType !== EMPTY_SEARCH_VALUE
+  const hasSellerFilter = seller !== EMPTY_SEARCH_VALUE
   if(hasHalfDateFilter) {
     alerter.alertError('No se seleccionaron fechas validas')
     return getOriginalTransactions()
@@ -155,8 +166,9 @@ const filterTransactions = ({
       )
   if(hasTransactionTypeFilter) 
     filteredTransactions = filteredTransactions.filter(({type}) => clean(type.split(' ')[0]) === clean(transactionType))
-  
-  if(filteredTransactions.length > 0)
+  if(hasSellerFilter)
+    filteredTransactions = filteredTransactions.filter(({sellerName}) => clean(sellerName) === clean(seller))
+  if(filteredTransactions.length > 0 && !filteredTransactions.find(transaction => transaction.type === 'Total'))
     filteredTransactions = [...filteredTransactions, getTotalRow(filteredTransactions)]
   return filteredTransactions
 }
@@ -184,6 +196,7 @@ interface TransactionFilters {
   finalDate: InputDate 
   supplier: string
   transactionType: string
+  seller: string
 }
 
 const initialInputDate: InputDate = {
@@ -196,5 +209,6 @@ const initialForm: TransactionFilters = {
   finalDate: {...initialInputDate}, 
   initialDate: {...initialInputDate},
   supplier: EMPTY_SEARCH_VALUE, 
-  transactionType: EMPTY_SEARCH_VALUE
+  transactionType: EMPTY_SEARCH_VALUE, 
+  seller: EMPTY_SEARCH_VALUE
 }

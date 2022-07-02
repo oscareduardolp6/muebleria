@@ -12,14 +12,13 @@ export const getAllTransactionAsDataRows = async (): Promise<DataRowTransaction[
   try {
     transactions = await getAllTransactions()
   } catch (error) {
-    // alert('Servidor no levantado :(')
     alerter.alertError('Servidor no levantado :(') 
     console.error(error)
     return []
   }
   if(!transactions) return []
   let rows = transactions.map(transactionDTOParse)
-  if(transactions.length > 1) 
+  if(transactions.length > 1 && !rows.find(row => row.type === 'Total')) 
     rows = [...rows, getTotalRow(rows)]
   return rows
 }
@@ -40,7 +39,7 @@ export const getTotalRow  = (rows: DataRowTransaction[]) => {
     toSite: '', 
     transactionId: 'Total', 
     type: 'Total', 
-    sellerId: ''
+    sellerName:''
   }
   return result
 }
