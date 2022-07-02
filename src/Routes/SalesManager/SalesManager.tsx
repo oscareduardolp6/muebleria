@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ColumnSize4 as Column4 } from './../../Components/ColumnSize4'
+import { ColumnSize3 as Column3 } from '../../Components/ColumnSize3'
 import { OrderRowDTO } from '../../../../../Share/OrderRowDTO'
 import { ProductDTO } from '../../../../../Share/ProductDTO'
 import { Button } from '../../Components/Button'
@@ -23,6 +24,8 @@ import {
 import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
+import { DropDown } from '../../Components/DropDown'
+import { changeHandlerClosure, changeSelectHandlerClosure } from '../../Utils/ChangeHandler'
 
 const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
@@ -31,9 +34,13 @@ export const SalesManager = () => {
   const [selection, setSelection] = useState('')
   const [clientSelection, setClientSelection] = useState('')
   const [sellerSelection, setSellerSelection] = useState('')
+  const [sellType, setSellType] = useState('')
   const { orderProducts, displayOrderRows, addRow } = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   const [selectedFile, setSelectedFile] = useState<any>(null)
+
+  // const changeType = changeSelectHandlerClosure(setSellType)
+  const changeType = changeHandlerClosure(setSellType)
 
   const {
     decrementPrivateStock,
@@ -134,6 +141,13 @@ export const SalesManager = () => {
             <AutoCompleteSelles setValue={setSellerSelection} value={sellerSelection} />
           </div>
         </Column4>
+        <Column3 className='ml-4'>
+          <fieldset>
+            <legend><Label>Tipo de Venta</Label></legend>
+            <Label className='ml-4'><input type='radio' name='type' value='Hipóteca' onChange={changeType} /> Hipóteca</Label>
+            <Label className='ml-4'><input type='radio' name='type' value='Público'  onChange={changeType} checked/> Público</Label>
+          </fieldset>
+        </Column3>
       </Row>
       <Row className='ml-5'>
         <Column className='is-4'>
