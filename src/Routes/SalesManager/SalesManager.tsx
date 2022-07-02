@@ -24,8 +24,7 @@ import {
 import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
-import { DropDown } from '../../Components/DropDown'
-import { changeHandlerClosure, changeSelectHandlerClosure } from '../../Utils/ChangeHandler'
+import { changeHandlerClosure } from '../../Utils/ChangeHandler'
 
 const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
