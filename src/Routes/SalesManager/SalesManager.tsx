@@ -21,11 +21,14 @@ import {
   saveTransaction,
   saveTransactionData,
 } from '../../Services/TransactionsV2Service'
-import { ChangeEvent } from '../../Types/TypesAliases'
+import { ChangeEvent, ChangeEventFieldSet } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
 import { changeHandlerClosure } from '../../Utils/ChangeHandler'
 import { TransactionTypes } from '../../../../../Share/TransactionDTO'
+import { CaptureFolio } from './CaptureFolio'
+import Modal from '../../Components/Modal'
+import { useBinaryState } from '../../Hooks/useBinaryState'
 
 const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
@@ -34,12 +37,25 @@ export const SalesManager = () => {
   const [selection, setSelection] = useState('')
   const [clientSelection, setClientSelection] = useState('')
   const [sellerSelection, setSellerSelection] = useState('')
-  const [sellType, setSellType] = useState('')
+  const [sellType, setSellType] = useState('Público')
+  const [folio, setFolio] = useState('')
   const { orderProducts, displayOrderRows, addRow } = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   const [selectedFile, setSelectedFile] = useState<any>(null)
+  const [isVisible, hide, show] = useBinaryState(false)
 
-  const changeType = changeHandlerClosure(setSellType)
+  const closeModal = () => {
+    if(!folio) 
+      return alerter.alertError('El folio está vacío')
+    hide()
+  }
+
+  const changeType = ({ target: {value}}: ChangeEvent) => {
+    setSellType(value)
+    if(value.normalize() === 'Hipóteca'.normalize()) 
+      show()
+  }
+  const changeFolio = changeHandlerClosure(setFolio)
 
   const {
     decrementPrivateStock,
@@ -143,10 +159,12 @@ export const SalesManager = () => {
           </div>
         </Column4>
         <Column3 className='ml-4'>
-          <fieldset>
+          <fieldset >
             <legend><Label>Tipo de Venta</Label></legend>
-            <Label className='ml-4'><input type='radio' name='type' value='Hipóteca' onChange={changeType} /> Hipóteca</Label>
-            <Label className='ml-4'><input type='radio' name='type' value='Público'  onChange={changeType} checked/> Público</Label>
+            <div onChange={changeType}>
+              <Label className='ml-4'><input type='radio' name='type' value='Hipóteca' checked={sellType === 'Hipóteca'} onChange={changeType} /> Hipóteca</Label>
+              <Label className='ml-4'><input type='radio' name='type' value='Público' checked={sellType === 'Público'} onChange={changeType}   /> Público</Label>
+            </div>
           </fieldset>
         </Column3>
       </Row>
@@ -229,6 +247,15 @@ export const SalesManager = () => {
         </Button>
       </Row>
       <OrderTable products={displayOrderRows} />
+      <Modal
+        isVisible={isVisible}
+        onClose={closeModal}
+        portalId='mortgageFolio' >
+          <CaptureFolio 
+            name='folio'
+            onChange={changeFolio}
+            text={folio} />
+      </Modal>
     </>
   )
 }
