@@ -1,4 +1,4 @@
-import { CSSProperties, useRef } from "react"
+import { CSSProperties, useEffect, useRef, useState } from "react"
 import ReactToPrint from "react-to-print"
 import { transactionTypesDescription } from "../../../../../Share/TransactionDTO"
 import { Button } from "../../Components/Button"
@@ -34,6 +34,7 @@ export const Transactions = () => {
     initialState: []
   })
   const [form, handleChange, resetForm, setForm] = useForm(initialForm)
+  const [sellersOptions, setSellerOptions] = useState<string[]>([])
 
   const handleChangeDate = ({currentTarget: {value, name}}: ChangeEvent) => 
     setForm({
@@ -44,7 +45,11 @@ export const Transactions = () => {
       }
     })
 
-    const sellersOptions = getOriginalTransactions().map(transaction => transaction.sellerName)
+    useEffect(() => {
+      const options = (getOriginalTransactions() ?? []).map(({sellerName}) => sellerName)
+      setSellerOptions(options)
+    }, [transactions])
+
 
   const handleFilter = () => 
     setTransactions(filterTransactions({
