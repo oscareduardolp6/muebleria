@@ -25,5 +25,7 @@ const typeSymbols: Record<TransactionTypes,string> = {
   "1": '⬇️', 
   "2": '⬆️', 
   "3": '💥', 
-  "4": '🔃'
+  "4": '🔃', 
+  "5": '⤵️'
+
 }

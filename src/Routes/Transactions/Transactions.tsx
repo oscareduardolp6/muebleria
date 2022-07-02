@@ -166,11 +166,46 @@ const filterTransactions = ({
       ({clientId}) => clean(clientId) === clean(client)
     )
   if(hasSupplierFilter) 
-      filteredTransactions = filteredTransactions.filter(
-        ({supplierId}) => clean(supplierId) === clean(supplier)
-      )
+    filteredTransactions = filteredTransactions.filter(
+      ({supplierId}) => clean(supplierId) === clean(supplier)
+    )
   if(hasTransactionTypeFilter) 
-    filteredTransactions = filteredTransactions.filter(({type}) => clean(type.split(' ')[0]) === clean(transactionType))
+    filteredTransactions = filteredTransactions.filter(({type}) => {
+      const normalizedTransactionSearched = transactionType.normalize()
+      console.log({normalizedTransactionSearched});
+      
+      const [
+        firstWordSearchedTransaction, 
+        secondWordSearchedTransaction, 
+      ] = transactionType.normalize().split(' ')
+
+      const [
+        firstWordTableTransaction,
+        secondWordTableTransaction
+      ] = type.normalize().split(' ')
+      console.log({
+        firstWordSearchedTransaction, 
+        secondWordSearchedTransaction, 
+        secondWordTableTransaction, 
+        firstWordTableTransaction
+      })
+      if(firstWordTableTransaction === 'Total') return false 
+      const result = clean(firstWordSearchedTransaction) === clean('Venta')
+                      ? clean(secondWordSearchedTransaction) == clean(secondWordTableTransaction)
+                      : clean(firstWordTableTransaction) == clean(firstWordSearchedTransaction)
+      
+      console.log(result);
+      return result
+
+      // const result =  secondWordSearchedTransaction === secondWordTableTransaction
+      
+      if(firstWordSearchedTransaction === clean('Venta'))
+        return result
+
+      return clean(type.split(' ')[0]) === clean(transactionType)
+  })
+  console.log({filteredTransactions});
+  
   if(hasSellerFilter)
     filteredTransactions = filteredTransactions.filter(({sellerName}) => clean(sellerName) === clean(seller))
   if(filteredTransactions.length > 0 && !filteredTransactions.find(transaction => transaction.type === 'Total'))

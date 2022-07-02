@@ -25,6 +25,7 @@ import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
 import { changeHandlerClosure } from '../../Utils/ChangeHandler'
+import { TransactionTypes } from '../../../../../Share/TransactionDTO'
 
 const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
@@ -38,7 +39,6 @@ export const SalesManager = () => {
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   const [selectedFile, setSelectedFile] = useState<any>(null)
 
-  // const changeType = changeSelectHandlerClosure(setSellType)
   const changeType = changeHandlerClosure(setSellType)
 
   const {
@@ -77,12 +77,14 @@ export const SalesManager = () => {
   }
 
   const handleAddProductToOrder = () => {
+    const typeOfSell = sellType === 'Hipóteca' ? TransactionTypes.MortgageSale : TransactionTypes.PublicSale
     const orderRowDTO: OrderRowDTO = {
       clientID: clientSelection,
       productID: getId(selection),
       privateSiteQuantity: sellPrivateStockQuantity,
       publicSiteQuantity: sellPublicStockQuantity,
-      sellerID: getId(sellerSelection)
+      sellerID: getId(sellerSelection), 
+      sellType: typeOfSell
     }
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0,
