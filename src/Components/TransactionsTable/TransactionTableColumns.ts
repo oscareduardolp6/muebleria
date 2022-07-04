@@ -15,7 +15,8 @@ const myColumns: DataRowTransaction = {
   fromSite: 'Origen', 
   toSite: 'Destino', 
   sellerName: 'Vendedor', 
-  folio: 'Folio'
+  folio: 'Folio', 
+  productCategory: 'Categoría'
 }
 
 const entries = Object.entries(myColumns)

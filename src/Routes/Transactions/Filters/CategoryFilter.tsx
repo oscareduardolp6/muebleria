@@ -1,15 +1,16 @@
 import { DropDown } from "../../../Components/DropDown";
 import { DropDownFilterProps } from "./DropDownFilterProps";
 
-export const SellersFilter = ({options, ...props}: DropDownFilterProps) => {
+export const CategoryFilter = ({options, ...props}: DropDownFilterProps) => {
   const uniqueOptions = [...new Set(options)]
   return (
     <DropDown
-      defaultText="Vendedor" 
+      defaultText="Categoría"
       defaultValue=""
-      name="seller"
-      labelText="Vendedor"
+      name="category"
+      labelText="Categoría"
       options={uniqueOptions}
-      {...props} />
-  ) 
+      {...props}
+    />
+  )
 }

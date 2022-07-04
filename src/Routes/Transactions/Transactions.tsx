@@ -18,9 +18,11 @@ import { convertInputDateStringToDate, InputDate } from "../../Hooks/useDate"
 import { useForm } from "../../Hooks/useForm"
 import { useReseteableState } from "../../Hooks/useResetableState"
 import { getAllTransactionAsDataRows, getTotalRow } from "../../Services/TransactionsService"
-import { ChangeEvent } from "../../Types/TypesAliases"
+import { ChangeEvent, SetAction } from "../../Types/TypesAliases"
+import { changeSelectHandlerClosure } from "../../Utils/ChangeHandler"
 import { getTodayInInputFormat } from "../../Utils/Date"
 import { convertTransactionDateToDate } from "../../Utils/Transactions"
+import { CategoryFilter } from "./Filters/CategoryFilter"
 import { SellersFilter } from "./Filters/SellersFilter"
 import { FlaticonAttribution } from "./FlaticonAttribution"
 
@@ -35,6 +37,7 @@ export const Transactions = () => {
   })
   const [form, handleChange, resetForm, setForm] = useForm(initialForm)
   const [sellersOptions, setSellerOptions] = useState<string[]>([])
+  const [filtersOptions, setFiltersOptions] = useState(initialFiltersOptions)
 
   const handleChangeDate = ({currentTarget: {value, name}}: ChangeEvent) => 
     setForm({
@@ -47,7 +50,12 @@ export const Transactions = () => {
 
     useEffect(() => {
       const options = (getOriginalTransactions() ?? []).map(({sellerName}) => sellerName)
+      const categories = (getOriginalTransactions() ?? []).map(({productCategory}) => productCategory)
       setSellerOptions(options)
+      setFiltersOptions({
+        ...filtersOptions, 
+        categories
+      })
     }, [transactions])
 
 
@@ -94,6 +102,13 @@ export const Transactions = () => {
           <Column3>
             <SellersFilter options={sellersOptions} onChange={handleChange} />
           </Column3>
+          <Column className='is-2'>
+            <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
+          </Column>
+
+          {/* <Column3>
+            <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
+          </Column3> */}
         </Row>
         <Row>
         <Column className='is-1 ml-6'>
@@ -137,7 +152,8 @@ const filterTransactions = ({
     client, 
     supplier, 
     transactionType, 
-    seller
+    seller, 
+    category
   },
   getOriginalTransactions
 }: FilterTransactionClosureParams) => {
@@ -145,8 +161,8 @@ const filterTransactions = ({
   const hasFinalDate = finalDate.text !== EMPTY_SEARCH_VALUE
   const hasDateFilter = hasInitialDate && hasFinalDate
   const hasHalfDateFilter = (hasInitialDate && !hasFinalDate) || (!hasInitialDate && hasFinalDate)
+  const hasCategoryFilter = category !== EMPTY_SEARCH_VALUE
   console.log({transactionType});
-  
   
   const hasSupplierFilter = supplier !== EMPTY_SEARCH_VALUE
   const hasTransactionTypeFilter = transactionType !== EMPTY_SEARCH_VALUE
@@ -175,6 +191,8 @@ const filterTransactions = ({
     )
   if(hasSellerFilter)
     filteredTransactions = filteredTransactions.filter(({sellerName}) => clean(sellerName) === clean(seller))
+  if(hasCategoryFilter) 
+    filteredTransactions = filteredTransactions.filter(({productCategory}) => clean(productCategory) === clean(category))
   if(filteredTransactions.length > 0 && !filteredTransactions.find(transaction => transaction.type === 'Total'))
     filteredTransactions = [...filteredTransactions, getTotalRow(filteredTransactions)]
   return filteredTransactions
@@ -220,6 +238,7 @@ interface TransactionFilters {
   supplier: string
   transactionType: string
   seller: string
+  category: string
 }
 
 const initialInputDate: InputDate = {
@@ -233,5 +252,14 @@ const initialForm: TransactionFilters = {
   initialDate: {...initialInputDate},
   supplier: EMPTY_SEARCH_VALUE, 
   transactionType: EMPTY_SEARCH_VALUE, 
-  seller: EMPTY_SEARCH_VALUE
+  seller: EMPTY_SEARCH_VALUE, 
+  category: EMPTY_SEARCH_VALUE
+}
+
+interface filtersOptions {
+  categories: string[]
+}
+
+const initialFiltersOptions: filtersOptions = {
+  categories: []
 }

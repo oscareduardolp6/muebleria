@@ -17,7 +17,8 @@ export const parse = (transactionDTO: TransactionDTO): DataRowTransaction => {
     fromSite: transactionDTO.fromSite.toString(), 
     toSite: transactionDTO.toSite.toString(), 
     sellerName: transactionDTO.sellerName ?? 'No registrado', 
-    folio: transactionDTO.folio || transactionDTO.transactionId.toString() 
+    folio: transactionDTO.folio || transactionDTO.transactionId.toString() , 
+    productCategory: transactionDTO.productCategory ||  'Sin categoría'
   }
   return transactionRow
 }

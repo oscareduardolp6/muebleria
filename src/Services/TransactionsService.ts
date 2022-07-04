@@ -40,7 +40,8 @@ export const getTotalRow  = (rows: DataRowTransaction[]) => {
     transactionId: 'Total', 
     type: 'Total', 
     sellerName:'', 
-    folio: ''
+    folio: '', 
+    productCategory: ''
   }
   return result
 }

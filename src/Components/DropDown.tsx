@@ -1,4 +1,4 @@
-import { Children } from "react"
+import { Children, CSSProperties } from "react"
 import { ChangeEventSelect } from "../Types/TypesAliases"
 import { Label } from "./Label"
 
