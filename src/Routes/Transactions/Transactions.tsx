@@ -105,10 +105,6 @@ export const Transactions = () => {
           <Column className='is-2'>
             <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
           </Column>
-
-          {/* <Column3>
-            <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
-          </Column3> */}
         </Row>
         <Row>
         <Column className='is-1 ml-6'>
