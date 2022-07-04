@@ -89,8 +89,9 @@ export const SalesManager = () => {
     const productNeedStock = promisesResults.map((result) =>
       result.productInfo?.map((info) => `${info.name} - ${info.id}`)
     )
+    alerter.alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
     // alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
-    // alert(`Productos que necesitan Stock: ${productNeedStock.join()}`)
+    alerter.alert(`Productos que necesitan Stock: ${productNeedStock.join()}`)
   }
 
   const handleAddProductToOrder = () => {
