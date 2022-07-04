@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { SellTypes } from '../../../../../Share/SellerDTO'
 import { ColumnSize4 as Column4 } from './../../Components/ColumnSize4'
 import { ColumnSize3 as Column3 } from '../../Components/ColumnSize3'
 import { OrderRowDTO } from '../../../../../Share/OrderRowDTO'
@@ -21,7 +22,7 @@ import {
   saveTransaction,
   saveTransactionData,
 } from '../../Services/TransactionsV2Service'
-import { ChangeEvent, ChangeEventFieldSet } from '../../Types/TypesAliases'
+import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
 import { changeHandlerClosure } from '../../Utils/ChangeHandler'
@@ -37,7 +38,7 @@ export const SalesManager = () => {
   const [selection, setSelection] = useState('')
   const [clientSelection, setClientSelection] = useState('')
   const [sellerSelection, setSellerSelection] = useState('')
-  const [sellType, setSellType] = useState('Público')
+  const [sellType, setSellType] = useState<SellTypes>('Público')
   const [folio, setFolio] = useState('')
   const { orderProducts, displayOrderRows, addRow } = useOrder()
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
@@ -50,7 +51,8 @@ export const SalesManager = () => {
     hide()
   }
 
-  const changeType = ({ target: {value}}: ChangeEvent) => {
+  const changeType = ({ target: {value: val}}: ChangeEvent) => {
+    const value = val as SellTypes
     setSellType(value)
     if(value.normalize() === 'Hipóteca'.normalize()) 
       show()
@@ -87,7 +89,6 @@ export const SalesManager = () => {
     const productNeedStock = promisesResults.map((result) =>
       result.productInfo?.map((info) => `${info.name} - ${info.id}`)
     )
-
     // alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
     // alert(`Productos que necesitan Stock: ${productNeedStock.join()}`)
   }
@@ -102,6 +103,8 @@ export const SalesManager = () => {
       sellerID: getId(sellerSelection), 
       sellType: typeOfSell
     }
+    if(sellType === 'Hipóteca') 
+      orderRowDTO.folio = folio
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0,
       name: currentProduct?.name ?? '',
