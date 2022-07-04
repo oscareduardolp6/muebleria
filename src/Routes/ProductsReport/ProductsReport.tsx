@@ -74,14 +74,20 @@ export const ProductsReport = () => {
     const filtersKeys = Object.keys(filters)
     filtersKeys.forEach(key_ => {
       const key = key_ as keyof ProductsReportFilters
+      console.log(`El resultado de filters[key] : ${filters[key]}`);
       if(filters[key]) 
         filteredProducts = filteredProducts.filter(
           product => {
             const productKey = productFilterKeyEquivalences[key]
-            return product[productKey] === filters[key]
+            console.log(`Comparando ${product[productKey]} con ${filters[key]}`)
+            console.log(`Es: ${product[productKey] == filters[key]}`);
+            
+            return product[productKey] == filters[key]
           }
         )
     })
+    console.log(filteredProducts);
+    
     setProducts(filteredProducts)
   }
 
