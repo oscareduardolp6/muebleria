@@ -8,7 +8,8 @@ export type ColumnsKeys = Pick<ProductDTO,
   | 'price'
   | 'publicPrice'
   | 'privateSiteQuantity'
-  | 'showSiteQuantity'>
+  | 'showSiteQuantity'
+  | 'suppliers'>
 
 export type ColumnKeysWithTotals = keyof ColumnsKeys | 'totalStock'
 

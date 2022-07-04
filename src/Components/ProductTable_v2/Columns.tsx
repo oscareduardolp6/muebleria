@@ -7,9 +7,10 @@ const headers: Columns = {
   price: 'Precio', 
   publicPrice: 'Precio Público', 
   mortgagePrice: 'Precio Hipóteca', 
+  suppliers: 'Proveedor',
   privateSiteQuantity: 'Almacén', 
   showSiteQuantity: 'Exhibición', 
-  totalStock: 'Total'
+  totalStock: 'Total' 
 }
 
 const toDataRow = ([key, name]: (string | number)[]) => {
