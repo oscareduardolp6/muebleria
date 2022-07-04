@@ -46,16 +46,14 @@ export const SalesManager = () => {
   const [isVisible, hide, show] = useBinaryState(false)
 
   const closeModal = () => {
-    if(!folio) 
-      return alerter.alertError('El folio está vacío')
+    if (!folio) return alerter.alertError('El folio está vacío')
     hide()
   }
 
-  const changeType = ({ target: {value: val}}: ChangeEvent) => {
+  const changeType = ({ target: { value: val } }: ChangeEvent) => {
     const value = val as SellTypes
     setSellType(value)
-    if(value.normalize() === 'Hipóteca'.normalize()) 
-      show()
+    if (value.normalize() === 'Hipóteca'.normalize()) show()
   }
   const changeFolio = changeHandlerClosure(setFolio)
 
@@ -66,10 +64,7 @@ export const SalesManager = () => {
     incrementPublicStock,
     resetSellQuantities,
     setMaxStock,
-    quantities: {
-      sellPrivateStockQuantity,
-      sellPublicStockQuantity,
-    },
+    quantities: { sellPrivateStockQuantity, sellPublicStockQuantity },
   } = useStockQuantities()
 
   const clearClientSelection = () => setClientSelection('')
@@ -95,17 +90,27 @@ export const SalesManager = () => {
   }
 
   const handleAddProductToOrder = () => {
-    const typeOfSell = sellType === 'Hipóteca' ? TransactionTypes.MortgageSale : TransactionTypes.PublicSale
+    if(!sellPrivateStockQuantity && !sellPublicStockQuantity) {
+      resetSellQuantities()
+      return alerter.alertError('Cantidad seleccionada inválida')
+    }
+    if(!selection) {
+      resetSellQuantities()
+      return alerter.alertError('No se seleccionó ningún producto')
+    }
+    const typeOfSell =
+      sellType === 'Hipóteca'
+        ? TransactionTypes.MortgageSale
+        : TransactionTypes.PublicSale
     const orderRowDTO: OrderRowDTO = {
       clientID: clientSelection,
       productID: getId(selection),
       privateSiteQuantity: sellPrivateStockQuantity,
       publicSiteQuantity: sellPublicStockQuantity,
-      sellerID: getId(sellerSelection), 
-      sellType: typeOfSell
+      sellerID: getId(sellerSelection),
+      sellType: typeOfSell,
     }
-    if(sellType === 'Hipóteca') 
-      orderRowDTO.folio = folio
+    if (sellType === 'Hipóteca') orderRowDTO.folio = folio
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0,
       name: currentProduct?.name ?? '',
@@ -127,12 +132,12 @@ export const SalesManager = () => {
     alerter.alert('Producto cargado con éxito')
     const { privateSiteQuantity: privateSite, showSiteQuantity: publicSite } =
       product
-    
+
     setMaxStock({
-      privateStock: privateSite, 
-      publicStock: publicSite
+      privateStock: privateSite,
+      publicStock: publicSite,
     })
-    
+
     setCurrentProduct(product)
     resetSellQuantities()
   }
@@ -151,23 +156,54 @@ export const SalesManager = () => {
       <Row className='ml-5'>
         <Column4>
           <Label>ID del Cliente</Label>
-          <div className="is-flex is-justify-content-space-between">
-            <AutoCompleteClients setValue={setClientSelection} value={clientSelection} />
-            <Button className='ml-4' onClick={clearClientSelection} buttonColor='info'>Limpiar</Button>
+          <div className='is-flex is-justify-content-space-between'>
+            <AutoCompleteClients
+              setValue={setClientSelection}
+              value={clientSelection}
+            />
+            <Button
+              className='ml-4'
+              onClick={clearClientSelection}
+              buttonColor='info'>
+              Limpiar
+            </Button>
           </div>
         </Column4>
         <Column4>
           <Label>ID del vendedor</Label>
-          <div className="is-flex is-justify-content-space-between">
-            <AutoCompleteSelles setValue={setSellerSelection} value={sellerSelection} />
+          <div className='is-flex is-justify-content-space-between'>
+            <AutoCompleteSelles
+              setValue={setSellerSelection}
+              value={sellerSelection}
+            />
           </div>
         </Column4>
         <Column3 className='ml-4'>
-          <fieldset >
-            <legend><Label>Tipo de Venta</Label></legend>
+          <fieldset>
+            <legend>
+              <Label>Tipo de Venta</Label>
+            </legend>
             <div onChange={changeType}>
-              <Label className='ml-4'><input type='radio' name='type' value='Hipóteca' checked={sellType === 'Hipóteca'} onChange={changeType} /> Hipóteca</Label>
-              <Label className='ml-4'><input type='radio' name='type' value='Público' checked={sellType === 'Público'} onChange={changeType}   /> Público</Label>
+              <Label className='ml-4'>
+                <input
+                  type='radio'
+                  name='type'
+                  value='Hipóteca'
+                  checked={sellType === 'Hipóteca'}
+                  onChange={changeType}
+                />{' '}
+                Hipóteca
+              </Label>
+              <Label className='ml-4'>
+                <input
+                  type='radio'
+                  name='type'
+                  value='Público'
+                  checked={sellType === 'Público'}
+                  onChange={changeType}
+                />{' '}
+                Público
+              </Label>
             </div>
           </fieldset>
         </Column3>
@@ -254,11 +290,8 @@ export const SalesManager = () => {
       <Modal
         isVisible={isVisible}
         onClose={closeModal}
-        portalId='mortgageFolio' >
-          <CaptureFolio 
-            name='folio'
-            onChange={changeFolio}
-            text={folio} />
+        portalId='mortgageFolio'>
+        <CaptureFolio name='folio' onChange={changeFolio} text={folio} />
       </Modal>
     </>
   )

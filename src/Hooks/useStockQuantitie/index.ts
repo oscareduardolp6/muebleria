@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { StockQuantities, useStockQuantitiesReturn } from "./Types";
 
 const defaultQuantities: StockQuantities = {
   maxPrivateStockQuantity: 0,
   maxPublicStockQuantity: 0,
-  sellPrivateStockQuantity: 1,
+  sellPrivateStockQuantity: 0,
   sellPublicStockQuantity: 0
 }
 
@@ -20,7 +20,7 @@ const useStockQuantities = () => {
   const resetSellQuantities = () => setQuantities(state => {
     return {
       ...state,
-      sellPrivateStockQuantity: 1,
+      sellPrivateStockQuantity: 0,
       sellPublicStockQuantity: 0
     }
   })
