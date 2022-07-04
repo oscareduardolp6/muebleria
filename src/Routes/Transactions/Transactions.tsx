@@ -97,14 +97,14 @@ export const Transactions = () => {
         <Column>
           <TransactionTypesFilter form={form} handleChange={handleChange} />
         </Column>
+        <Column className='is-2'>
+          <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
+        </Column>
         </Row>
         <Row className='ml-5'>
           <Column3>
             <SellersFilter options={sellersOptions} onChange={handleChange} />
           </Column3>
-          <Column className='is-2'>
-            <CategoryFilter options={filtersOptions.categories} onChange={handleChange} />
-          </Column>
         </Row>
         <Row>
         <Column className='is-1 ml-6'>
