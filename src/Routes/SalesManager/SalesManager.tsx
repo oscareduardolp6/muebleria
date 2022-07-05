@@ -25,11 +25,12 @@ import {
 import { ChangeEvent } from '../../Types/TypesAliases'
 import { AutoCompleteClients } from '../../Components/AutoCompleteClients'
 import { AutoCompleteSelles } from '../../Components/AutoCompleteSellers'
-import { changeHandlerClosure } from '../../Utils/ChangeHandler'
+import { changeHandlerClosure, changeHandlerNumberClosure } from '../../Utils/ChangeHandler'
 import { TransactionTypes } from '../../../../../Share/TransactionDTO'
 import { CaptureFolio } from './CaptureFolio'
 import Modal from '../../Components/Modal'
 import { useBinaryState } from '../../Hooks/useBinaryState'
+import { ColumnSize2 } from '../../Components/ColumnSize2'
 
 const getId = (selection: string) =>
   selection.includes('-') ? selection.split('-')[1].trim() : selection
@@ -44,6 +45,7 @@ export const SalesManager = () => {
   const [currentProduct, setCurrentProduct] = useState<ProductDTO>()
   const [selectedFile, setSelectedFile] = useState<any>(null)
   const [isVisible, hide, show] = useBinaryState(false)
+  const [sellPrice, setSellPrice] = useState(0);
 
   const closeModal = () => {
     if (!folio) return alerter.alertError('El folio está vacío')
@@ -56,6 +58,7 @@ export const SalesManager = () => {
     if (value.normalize() === 'Hipóteca'.normalize()) show()
   }
   const changeFolio = changeHandlerClosure(setFolio)
+  const changePrice = changeHandlerNumberClosure(setSellPrice)
 
   const {
     decrementPrivateStock,
@@ -85,7 +88,6 @@ export const SalesManager = () => {
       result.productInfo?.map((info) => `${info.name} - ${info.id}`)
     )
     alerter.alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
-    // alert(`Resultado Transacción(es) : ${transactionMessages.join()}`)
     alerter.alert(`Productos que necesitan Stock: ${productNeedStock.join()}`)
   }
 
@@ -108,13 +110,15 @@ export const SalesManager = () => {
       privateSiteQuantity: sellPrivateStockQuantity,
       publicSiteQuantity: sellPublicStockQuantity,
       sellerID: getId(sellerSelection),
-      sellType: typeOfSell,
+      sellType: typeOfSell, 
+      price: sellPrice
     }
     if (sellType === 'Hipóteca') orderRowDTO.folio = folio
+    console.log({sellPrice});
     const rowProductDTO: RowProductDTO = {
       mortgagePrice: currentProduct?.mortgagePrice ?? 0,
       name: currentProduct?.name ?? '',
-      price: currentProduct?.price ?? 0,
+      price: sellPrice, 
       publicPrice: currentProduct?.publicPrice ?? 0,
     }
 
@@ -128,6 +132,7 @@ export const SalesManager = () => {
   const handleSearch = async () => {
     const id = getId(selection)
     const product = await getProductsById(id)
+    setSellPrice(product?.price ?? 0)
     if (!product) return alerter.alertError('Producto no encontrado')
     alerter.alert('Producto cargado con éxito')
     const { privateSiteQuantity: privateSite, showSiteQuantity: publicSite } =
@@ -152,7 +157,13 @@ export const SalesManager = () => {
   return (
     <>
       <RouteTitle>Ventas</RouteTitle>
-      <ProductAutoCompleteRow {...autoCompleteProducts} />
+        <ProductAutoCompleteRow {...autoCompleteProducts} />
+      <Row className='ml-5'>
+        <ColumnSize2>
+          <Label>Precio</Label>
+          <TextInput type='number' name='price' value={sellPrice} onChange={changePrice} />
+        </ColumnSize2>
+      </Row>
       <Row className='ml-5'>
         <Column4>
           <Label>ID del Cliente</Label>
